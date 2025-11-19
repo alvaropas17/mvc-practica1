@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-11-2025 a las 09:40:24
+-- Tiempo de generación: 19-11-2025 a las 10:01:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -31,10 +31,10 @@ USE `adopciones`;
 
 CREATE TABLE `animales` (
   `imagen` varchar(255) NOT NULL,
-  `usuario` varchar(255) NOT NULL,
   `fecha_subida` date NOT NULL,
   `nombre_animal` varchar(255) NOT NULL,
-  `descripcion` varchar(255) NOT NULL
+  `descripcion` varchar(255) NOT NULL,
+  `id_usuario` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -44,10 +44,11 @@ CREATE TABLE `animales` (
 --
 
 CREATE TABLE `usuarios` (
-  `nombre` varchar(25) NOT NULL,
   `contrasenia` varchar(255) NOT NULL,
   `sexo` varchar(20) NOT NULL,
-  `localidad` varchar(50) NOT NULL
+  `localidad` varchar(50) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `id_usuario` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -58,13 +59,23 @@ CREATE TABLE `usuarios` (
 -- Indices de la tabla `animales`
 --
 ALTER TABLE `animales`
-  ADD KEY `fk_usuario` (`usuario`);
+  ADD KEY `fk_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`nombre`);
+  ADD PRIMARY KEY (`id_usuario`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id_usuario` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -74,7 +85,7 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `animales`
 --
 ALTER TABLE `animales`
-  ADD CONSTRAINT `fk_usuario` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`nombre`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

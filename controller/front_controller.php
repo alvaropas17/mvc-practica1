@@ -47,6 +47,6 @@ try {
     } else {
         throw new Exception('La acción no existe - 404 not found');
     }
-} catch (\Throwable $th) {
+} catch (\Throwable $e) {
     console_log($e->getMessage());
 }
