@@ -16,11 +16,49 @@ class UsuariosModel
 
 
     // Función iniciar sesión
-    public function iniciarSesion($nombreUsuario, $hashContra)
+    public function iniciarSesion(string $nombreUsuario, string $pass)
     {
         try {
-            $stmt = $this->db->prepare("SELECT id, contrasenia FROM usuario WHERE nombre = ? LIMIT 1");
-        } catch (\Throwable $th) {
+            // Seleccionamos tanto id como passwd
+            $stmt = $this->db->prepare("SELECT id, passwd FROM usuarios WHERE nombre=? LIMIT 1");
+
+            // Con esto le decimos el tipo de dato que vamos a introducir
+            $stmt->bind_param("s", $nombreUsuario);
+
+            // Ejecutamos la consulta
+            $stmt->execute();
+
+            // Leemos el resultado
+            $user = $stmt->get_result()->fetch_assoc();
+
+            $stmt->close();
+
+            if ($user && password_verify($pass, $user['passwd'])) {
+                return $user['id'];
+            } else {
+                return 0;
+            }
+        } catch (mysqli_sql_exception $e) {
+            return 0;
+        }
+    }
+
+    // Función crear usuario
+    public function crearUsuario(string $nombreUsuario, string $pass, string $sexo, string $localidad): bool
+    {
+        try {
+            $passHash = password_hash($pass, PASSWORD_DEFAULT);
+            $stmt = $this->db->prepare("INSERT INTO usuarios (nombre, contrasenia, sexo, localidad) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $nombreUsuario, $passHash, $sexo, $localidad);
+
+            // Ejecutamos la consulta
+            $ok = $stmt->execute();
+
+            // Una vez ejecutada la cerramos
+            $stmt->close();
+            return $ok;
+        } catch (mysqli_sql_exception $e) {
+            throw new RuntimeException("Error en la inserción: " . $e->getMessage(), 0, $e);
         }
     }
 }
