@@ -61,4 +61,22 @@ class UsuariosModel
             throw new RuntimeException("Error en la inserción: " . $e->getMessage(), 0, $e);
         }
     }
+
+
+    // Función borrar datos
+    public function delete(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM usuarios WHERE id=?");
+            $stmt->bind_param("i", $id);
+
+            $ok = $stmt->execute();
+            $stmt->close();
+
+            return $ok;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+            throw new RuntimeException("Error en la inserción: " . $e->getMessage(), 0, $e);
+        }
+    }
 }

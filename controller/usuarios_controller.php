@@ -10,3 +10,14 @@ function home()
     require_once("views/adopcion_view.php");
     echo '</main>';
 }
+
+
+function login()
+{
+    // Cargamos el menú de navegación
+    require_once("views/menu_view.php");
+
+    echo '<main class="container">';
+    require_once("view/login_view.php");
+    echo '</main>';
+}

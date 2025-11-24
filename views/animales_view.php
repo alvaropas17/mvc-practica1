@@ -1,5 +1,5 @@
-<?php require_once('view/menu.php'); ?>
-
+<?php require_once('view/menu_view.php');
+?>
 <header>
     <h1>Usuarios</h1>
 </header>
@@ -8,13 +8,17 @@
 if (!isset($_SESSION['usuario'])) {
 ?>
 
-    <h1>Crear nuevo usuario</h1>
+    <h1>Añadir un nuevo animal</h1>
     <section class="card">
         <form action="index.php?controlador=usuarios&action=home" method="post" class="form-user">
-            <label for="">Nombre:</label>
+            <label for="nombre">Nombre:</label>
             <input type="text" name="nombre" id="nombre" placeholder="Introduce el nombre...">
-            <label for="">Contraseña</label>
-            <input type="password" name="passwd" id="passwd" placeholder="Introduce tu contraseña...">
+            <label for="especie">Especie:</label>
+            <input type="text" name="especie" id="especie" placeholder="Introduce la especie...">
+            <label for="edad">Edad</label>
+            <input type="text" name="edad" id="edad" placeholder="Introduce la edad...">
+            <label for="desc">Descripción</label>
+            <input type="text" name="desc" id="desc" placeholder="Introduce una descripción...">
             <input type="submit" name="crear" />
         </form>
     </section>
@@ -30,30 +34,24 @@ if (!isset($_SESSION['usuario'])) {
     <table class="table">
         <thead>
             <tr>
-                <th>Nombre de usuario</th>
-                <th>Correo</th>
-                <th><select name="nombre_del_select" id="id_del_select">
-                        <option value="Administrador">Administrador</option>
-                        <option value="editor">Editor</option>
-                        <option value="visor">Visor</option>
-                    </select></th>
-            </tr>
+                <th>Nombre del animal</th>
+                <th>Descripción</th>
             <tr>
-                <td><button type="button">Crear usuario</button></td>
+                <td><button type="button">Añadir animal</button></td>
             </tr>
         </thead>
     </table>
 </section>
 
 <section class="card">
-    <h3>Usuarios registrados</h3>
+    <h3>Animales registrados</h3>
     <table class="table">
         <thead>
             <tr>
-                <th>Usuario</th>
-                <th>Correo</th>
-                <th>Rol</th>
-                <th>Acciones</th>
+                <th>Nombre</th>
+                <th>Especie</th>
+                <th>Edad</th>
+                <th>Descripción</th>
             </tr>
         </thead>
         <tbody>
@@ -67,12 +65,12 @@ if (!isset($_SESSION['usuario'])) {
                         ?>
 
                             <td>
-                            <td><button class="btn-modificar">Modificar</button></td>
-                            <form action="index.php?controlador=usuarios&action=home" method="post">
-                                <input type="hidden" name="id" id="<?php echo $u['id']; ?>" value="<?php echo $u['id']; ?>">
-                                <input type="submit" id="borrar" name="borrar" value="Borrar">
-                            </form>
+                                <form action="" method="post">
+                                    <input type="hidden" name="id" id="<?php echo $u['id']; ?>" value="<?php echo $u['id']; ?>">
+                                    <input type="submit" id="borrar" name="borrar" value="Borrar">
+                                </form>
                             </td>
+                            <td><button class="btn-modificar">Modificar</button></td>
                         <?php
                         }
                         ?>
