@@ -78,6 +78,8 @@ updateCarousel();
 startAuto();
 
 document.addEventListener("DOMContentLoaded", function (e) {
+  const loginForm = document.getElementById('loginForm');
+  
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();

@@ -10,6 +10,14 @@ function home()
 function login()
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!isset($_POST['user']) || !isset($_POST['pass'])) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => false,
+                'message' => 'Datos incompletos'
+            ]);
+            exit;
+        }
         $usuario = $_POST['user'] ?? '';
         $passwd = $_POST['pass'] ?? '';
 
@@ -35,10 +43,15 @@ function login()
         }
         exit;
     } else {
-
         require_once("views/login_view.php");
     }
 }
+function usuarios()
+{
+    // Mostrar la vista de gestión de usuarios
+    require_once("views/usuarios_view.php");
+}
+
 function contacto()
 {
     require_once("views/contacto_view.php");
