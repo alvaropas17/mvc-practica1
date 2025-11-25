@@ -1,6 +1,6 @@
 // ===== Menú: cambiar vistas =====
 const tabs = document.querySelectorAll(".tab");
-const sections = {
+/* const sections = {
   adopcion: document.getElementById("view-adopcion"),
   login: document.getElementById("view-login"),
   contacto: document.getElementById("view-contacto"),
@@ -13,13 +13,15 @@ tabs.forEach((tab) => {
     tab.classList.add("active");
     const vista = tab.dataset.view;
     Object.keys(sections).forEach((k) => {
-      sections[k].style.display = k === vista ? "block" : "none";
+      if (sections[k]) {
+        sections[k].style.display = k === vista ? "block" : "none";
+      }
     });
     if (vista === "adopcion") startAuto();
     else stopAuto();
   });
 });
-
+*/
 // ===== Carrusel: JS SOLO PARA EL MOVIMIENTO =====
 const slidesContainer = document.querySelector(".slides");
 const slides = document.querySelectorAll(".slide");

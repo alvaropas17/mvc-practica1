@@ -25,6 +25,7 @@ if (!empty($_GET['controlador'])) {
     $controller = $_GET['controlador'];
 }
 
+
 // Definimos la acción
 $action = DEFAULT_ACTION;
 
@@ -34,7 +35,7 @@ if (!empty($_GET['action'])) {
 
 // Hacemos que se cree la ruta y se guarde en $controller
 $controller = CONTROLLERS_FOLDER . $controller . '_controller.php';
-
+console_log($action);
 try {
     if (is_file($controller)) {
         require_once($controller);

@@ -1,3 +1,7 @@
+<?php
+require_once("views/menu_view.php");
+?>
+<main class="container">
 <section id="view-contacto" class="card" style="display:none">
     <h2>Contacto</h2>
     <form id="contactForm">
@@ -17,3 +21,4 @@
         <p id="contactMsg" class="muted" style="margin-top:.5rem"></p>
     </form>
 </section>
+</main>

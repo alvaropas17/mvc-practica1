@@ -1,4 +1,8 @@
-<section id="view-login" class="card" style="display:none">
+<?php
+require_once("views/menu_view.php");
+?>
+<main class="container">
+<section id="view-login" class="card" >
     <h2>Iniciar sesión</h2>
     <form id="loginForm" autocomplete="off">
         <label for="user">Usuario</label>
@@ -11,3 +15,4 @@
         <p id="loginMsg" class="muted" style="margin-top:.5rem"></p>
     </form>
 </section>
+</main>
