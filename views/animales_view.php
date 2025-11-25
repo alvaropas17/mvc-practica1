@@ -1,4 +1,4 @@
-<?php require_once('view/menu_view.php');
+<?php require_once("views/menu_view.php");
 ?>
 <header>
     <h1>Usuarios</h1>

@@ -34,9 +34,9 @@ class UsuariosModel
             $stmt->close();
 
             if ($user && password_verify($pass, $user['passwd'])) {
-                return $user['id'];
+                return $user['id'];  // Retorna el ID si es válido
             } else {
-                return 0;
+                return 0;  // Retorna 0 si no es válido
             }
         } catch (mysqli_sql_exception $e) {
             return 0;

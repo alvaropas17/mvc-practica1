@@ -2,7 +2,7 @@
 require_once("views/menu_view.php");
 ?>
 <main class="container">
-<section id="view-contacto" class="card" style="display:none">
+<section id="view-contacto" class="card">
     <h2>Contacto</h2>
     <form id="contactForm">
         <label for="nombre">Nombre</label>
