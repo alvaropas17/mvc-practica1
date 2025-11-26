@@ -34,6 +34,28 @@ function login()
 
     require_once("views/login_view.php");
 }
+
+function crearUsuario()
+{
+    $message = "";
+    if (isset($_POST['crear'])) {
+        $nombre = isset($_POST['nombre']) ? strip_tags($_POST['nombre']) : '';
+        $passwd = isset($_POST['pass']) ? strip_tags($_POST['pass']) : '';
+        $sexo = isset($_POST['sexo']) ? htmlspecialchars($_POST['sexo']) : '';
+        $localidad = isset($_POST['localidad']) ? htmlspecialchars($_POST['localidad']) : '';
+    }
+    require_once('model/usuarios_model.php');
+    $model = new UsuariosModel();
+
+    if ($nombre == "" || $passwd = "") {
+        $message = "El campo nombre o contraseña está vacío.";
+    } else {
+        $userId = $model->crearUsuario($nombre, $passwd, $sexo, $localidad);
+        header('Location: index.php');
+        exit;
+    }
+}
+
 function usuarios()
 {
     // Mostrar la vista de gestión de usuarios

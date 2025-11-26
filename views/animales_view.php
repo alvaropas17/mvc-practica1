@@ -1,8 +1,6 @@
 <?php require_once("views/menu_view.php");
 ?>
-<header>
-    <h1>Usuarios</h1>
-</header>
+<h1>Usuarios</h1>
 
 <?php
 if (!isset($_SESSION['usuario'])) {
