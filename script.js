@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            window.location.href = "index.php?action=usuarios";
+            window.location.href = "index.php?controlador=usuariosaction=home";
           } else {
             loginMsg.textContent =
               data.message || "Usuario o contraseña incorrecta";

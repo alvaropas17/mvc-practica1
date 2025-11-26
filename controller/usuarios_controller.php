@@ -10,38 +10,41 @@ function home()
 function login()
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (!isset($_POST['user']) || !isset($_POST['pass'])) {
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => false,
-                'message' => 'Datos incompletos'
-            ]);
+        if (isset($_POST['entrar'])) {
+            $usuario = isset($_POST['user']) ? strip_tags($_POST['user']) : '';
+            $passwd = isset($_POST['pass']) ? htmlspecialchars($_POST['pass']) : '';
+            require_once('model/usuarios_model.php');
+            $model = new UsuariosModel();
+            $userId = $model->iniciarSesion($usuario, $passwd);
+
+            if ($userId > 0) {
+                $_SESSION['usuario'] = $usuario;
+                $_SESSION['user_id'] = $userId;
+
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Login exitoso'
+                ]);
+            } else {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Usuario o contraseña incorrectos'
+                ]);
+            }
             exit;
         }
-        $usuario = $_POST['user'] ?? '';
-        $passwd = $_POST['pass'] ?? '';
+        // if (!isset($_POST['user']) || !isset($_POST['pass'])) {
+        //     header('Content-Type: application/json');
+        //     echo json_encode([
+        //         'success' => false,
+        //         'message' => 'Datos incompletos'
+        //     ]);
+        //     exit;
+        // }
 
-        require_once('model/usuarios_model.php');
-        $model = new UsuariosModel();
-        $userId = $model->iniciarSesion($usuario, $passwd);
 
-        if ($userId > 0) {
-            $_SESSION['usuario'] = $usuario;
-            $_SESSION['user_id'] = $userId;
-
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => true,
-                'message' => 'Login exitoso'
-            ]);
-        } else {
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => false,
-                'message' => 'Usuario o contraseña incorrectos'
-            ]);
-        }
-        exit;
     } else {
         require_once("views/login_view.php");
     }

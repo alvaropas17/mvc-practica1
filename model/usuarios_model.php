@@ -20,7 +20,7 @@ class UsuariosModel
     {
         try {
             // Seleccionamos tanto id como passwd
-            $stmt = $this->db->prepare("SELECT id, passwd FROM usuarios WHERE nombre=? LIMIT 1");
+            $stmt = $this->db->prepare("SELECT id_usuario, contrasenia FROM usuarios WHERE nombre=? LIMIT 1");
 
             // Con esto le decimos el tipo de dato que vamos a introducir
             $stmt->bind_param("s", $nombreUsuario);
@@ -33,8 +33,8 @@ class UsuariosModel
 
             $stmt->close();
 
-            if ($user && password_verify($pass, $user['passwd'])) {
-                return $user['id'];  // Retorna el ID si es válido
+            if ($user && password_verify($pass, $user['contrasenia'])) {
+                return $user['id_usuario'];  // Retorna el ID si es válido
             } else {
                 return 0;  // Retorna 0 si no es válido
             }
