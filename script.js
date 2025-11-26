@@ -76,33 +76,3 @@ document.querySelector(".carousel").addEventListener("mouseleave", startAuto);
 // Iniciar
 updateCarousel();
 startAuto();
-
-document.addEventListener("DOMContentLoaded", function (e) {
-  const loginForm = document.getElementById('loginForm');
-  
-  if (loginForm) {
-    loginForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const formData = new FormData(this);
-      const loginMsg = document.getElementById("loginMsg");
-
-      fetch("index.php?action=login", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.success) {
-            window.location.href = "index.php?controlador=usuariosaction=home";
-          } else {
-            loginMsg.textContent =
-              data.message || "Usuario o contraseña incorrecta";
-          }
-        })
-        .catch((error) => {
-          loginMsg.textContent = "Error al iniciar sesión";
-        });
-    });
-  }
-});

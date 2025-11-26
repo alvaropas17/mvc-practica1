@@ -9,50 +9,43 @@ function home()
 
 function login()
 {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['entrar'])) {
-            $usuario = isset($_POST['user']) ? strip_tags($_POST['user']) : '';
-            $passwd = isset($_POST['pass']) ? htmlspecialchars($_POST['pass']) : '';
-            require_once('model/usuarios_model.php');
-            $model = new UsuariosModel();
+    $message = "";
+    if (isset($_POST['entrar'])) {
+        $usuario = isset($_POST['user']) ? strip_tags($_POST['user']) : '';
+        $passwd = isset($_POST['pass']) ? htmlspecialchars($_POST['pass']) : '';
+        require_once('model/usuarios_model.php');
+        $model = new UsuariosModel();
+
+        if ($usuario == "" || $passwd == "") {
+            $message = "El usuario o la contraseña están vacíos";
+        } else {
             $userId = $model->iniciarSesion($usuario, $passwd);
 
             if ($userId > 0) {
                 $_SESSION['usuario'] = $usuario;
                 $_SESSION['user_id'] = $userId;
-
-                header('Content-Type: application/json');
-                echo json_encode([
-                    'success' => true,
-                    'message' => 'Login exitoso'
-                ]);
+                header('Location: index.php');
+                exit;
             } else {
-                header('Content-Type: application/json');
-                echo json_encode([
-                    'success' => false,
-                    'message' => 'Usuario o contraseña incorrectos'
-                ]);
+                $message = "Error: Usuario o contraseña incorrectos.";
             }
-            exit;
         }
-        // if (!isset($_POST['user']) || !isset($_POST['pass'])) {
-        //     header('Content-Type: application/json');
-        //     echo json_encode([
-        //         'success' => false,
-        //         'message' => 'Datos incompletos'
-        //     ]);
-        //     exit;
-        // }
-
-
-    } else {
-        require_once("views/login_view.php");
     }
+
+    require_once("views/login_view.php");
 }
 function usuarios()
 {
     // Mostrar la vista de gestión de usuarios
     require_once("views/usuarios_view.php");
+}
+
+function cerrarSesion()
+{
+    session_start();
+    session_destroy();
+    header('Location: index.php');
+    exit;
 }
 
 function contacto()

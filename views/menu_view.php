@@ -15,7 +15,8 @@
                     <option value="animales"><a href="index.php?controlador=usuarios&action=usuarios">Modificación de animales</a></option>
                 </select>
                 <!-- <a href="index.php?controlador=usuarios&action=login" class="tab" data-view="login">Iniciar sesión</a> -->
-                <a href="index.php?controlador=usuarios&action=contacto" class="tab" data-view="contacto">Contacto</a>
+                <!-- <a href="index.php?controlador=usuarios&action=contacto" class="tab" data-view="contacto">Contacto</a> -->
+                <a href="index.php?controlador=usuarios&action=cerrarSesion" class="tab" data-view="contacto">Cerrar sesión</a>
             </nav>
         <?php } ?>
     </div>
