@@ -56,8 +56,13 @@ function crearUsuario()
     }
 }
 
-function usuarios()
+function mostrarUsuarios()
 {
+    // Obtener los usuarios del modelo
+    require_once('model/usuarios_model.php');
+    $model = new UsuariosModel();
+    $users = $model->mostrarUsuarios();
+
     // Mostrar la vista de gestión de usuarios
     require_once("views/usuarios_view.php");
 }
@@ -70,7 +75,29 @@ function cerrarSesion()
     exit;
 }
 
+function borrarUsuario()
+{
+    if (isset($_POST['borrar'])) {
+        $id_usuario = $_POST['id_usuario'] ? htmlspecialchars($_POST['id_usuario']) : '';
+        if ($id_usuario > 0) {
+            $message = "El campo id está vacío";
+        }
+        require_once("model/usuarios_model.php");
+        $model = new UsuariosModel();
+        $userId = $model->delete($id_usuario);
+    }
+}
+
 function contacto()
 {
     require_once("views/contacto_view.php");
+}
+
+function usuarios()
+{
+    require_once("views/usuarios_view.php");
+}
+
+function crearForm(){
+    
 }

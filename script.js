@@ -76,3 +76,20 @@ document.querySelector(".carousel").addEventListener("mouseleave", startAuto);
 // Iniciar
 updateCarousel();
 startAuto();
+
+// ===== Mostrar/ocultar formulario de crear usuario =====
+const btnCrearForm = document.getElementById("btnCrearForm");
+const formCrearUsuario = document.getElementById("formCrearUsuario");
+
+if (btnCrearForm && formCrearUsuario) {
+  btnCrearForm.addEventListener("click", function() {
+    // Alternar la visibilidad del formulario
+    if (formCrearUsuario.style.display === "none") {
+      formCrearUsuario.style.display = "block";
+      btnCrearForm.textContent = "Ocultar formulario";
+    } else {
+      formCrearUsuario.style.display = "none";
+      btnCrearForm.textContent = "Crear usuario";
+    }
+  });
+}

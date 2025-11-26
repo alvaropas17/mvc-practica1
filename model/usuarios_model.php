@@ -79,4 +79,26 @@ class UsuariosModel
             throw new RuntimeException("Error en la inserción: " . $e->getMessage(), 0, $e);
         }
     }
+
+
+
+    public function mostrarUsuarios(): array
+    {
+        try {
+            // Seleccionamos todos los usuarios
+            $stmt = $this->db->prepare("SELECT id_usuario, nombre, localidad, sexo FROM usuarios");
+
+            // Ejecutamos la consulta
+            $stmt->execute();
+
+            // Leemos TODOS los resultados
+            $users = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+            $stmt->close();
+
+            return $users;
+        } catch (mysqli_sql_exception $e) {
+            return array();
+        }
+    }
 }

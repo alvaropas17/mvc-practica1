@@ -3,23 +3,29 @@
 <h1>Usuarios</h1>
 
 <?php
+// Definir el formulario en una variable para reutilizarlo
+$formularioUsuario = '
+<section class="card">
+    <form action="index.php?controlador=usuarios&action=crearUsuario" method="post" class="form-user">
+        <label for="">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" placeholder="Introduce el nombre...">
+        <label for="">Localidad:</label>
+        <input type="text" name="localidad" id="localidad" placeholder="Introduce la localidad...">
+        <label for="">Sexo:</label>
+        <input type="text" name="sexo" id="sexo" placeholder="Introduce tu sexo...">
+        <label for="">Contraseña</label>
+        <input type="password" name="passwd" id="passwd" placeholder="Introduce tu contraseña...">
+        <input type="submit" name="crear" />
+    </form>
+</section>
+';
+
 if (!isset($_SESSION['usuario'])) {
 ?>
 
     <h1>Crear nuevo usuario</h1>
-    <section class="card">
-        <form action="index.php?controlador=usuarios&action=crearUsuario" method="post" class="form-user">
-            <label for="">Nombre:</label>
-            <input type="text" name="nombre" id="nombre" placeholder="Introduce el nombre...">
-            <label for="">Localidad:</label>
-            <input type="text" name="localidad" id="nombre" placeholder="Introduce la localidad...">
-            <label for="">Sexo:</label>
-            <input type="text" name="sexo" id="sexo" placeholder="Introduce tu sexo...">
-            <label for="">Contraseña</label>
-            <input type="password" name="passwd" id="passwd" placeholder="Introduce tu contraseña...">
-            <input type="submit" name="crear" />
-        </form>
-    </section>
+    <?php echo $formularioUsuario; ?>
+
 <?php
 } else {
 ?>
@@ -41,10 +47,14 @@ if (!isset($_SESSION['usuario'])) {
                         </select></th>
                 </tr>
                 <tr>
-                    <td><button type="button">Crear usuario</button></td>
+                    <td><button type="button" id="btnCrearForm">Crear usuario</button></td>
                 </tr>
             </thead>
         </table>
+        
+        <div id="formCrearUsuario" style="display: none;">
+            <?php echo $formularioUsuario; ?>
+        </div>
     </section>
 
     <section class="card">
@@ -61,9 +71,9 @@ if (!isset($_SESSION['usuario'])) {
             <tbody>
                 <?php if (!empty($users)) {
                     foreach ($users as $u) { ?>
-                        <tr data-id="<?php echo $u['id']; ?>" data-nombre="<?php echo $u['nombre']; ?>">
-                            <td><?php echo $u['correo'] ?></td>
-                            <td><?php echo $u['rol'] ?></td>
+                        <tr data-id="<?php echo $u['id_usuario']; ?>" data-nombre="<?php echo $u['nombre']; ?>">
+                            <td><?php echo $u['localidad'] ?></td>
+                            <td><?php echo $u['sexo'] ?></td>
                             <?php
                             if (isset($_SESSION['usuario'])) {
                             ?>
@@ -83,5 +93,5 @@ if (!isset($_SESSION['usuario'])) {
                 } ?>
             </tbody>
         </table>
-    <?php } ?>
     </section>
+<?php } ?>
