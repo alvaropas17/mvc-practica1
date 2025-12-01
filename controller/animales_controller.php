@@ -5,3 +5,77 @@ function home()
 {
     require_once("views/animales_view.php");
 }
+
+
+function insertarAnimales()
+{
+    $error = "";
+    if (isset($_POST['insertarAnimal'])) {
+        $nombre = isset($_POST['nombre']) ? strip_tags($_POST['nombre']) : '';
+        $especie = isset($_POST['especie']) ? strip_tags($_POST['especie']) : '';
+        $edad = isset($_POST['edad']) ? htmlspecialchars($_POST['edad']) : '';
+        $desc = isset($_POST['desc']) ? htmlspecialchars($_POST['desc']) : '';
+
+        require_once('model/animales_model.php');
+        $model = new AnimalesModel();
+
+        if ($nombre == "" || $especie == "" || $edad == "" || $desc == "") {
+            $error = "Uno de los campos está vacío.";
+        } else {
+            $result = $model->insertarAnimal($nombre, $especie, $edad, $desc);
+            if ($result) {
+                header('Location: index.php?controlador=animales&action=mostrarAnimales');
+                exit;
+            } else {
+                $error = "Error al insertar el animal.";
+            }
+        }
+    }
+
+    // Mostrar la vista con el error si existe
+    require_once('model/animales_model.php');
+    $model = new AnimalesModel();
+    $users = $model->mostrarAnimales();
+    require_once('views/animales_view.php');
+}
+
+
+function mostrarAnimales()
+{
+    // Primero cargamos el modelo
+    require_once('model/animales_model.php');
+    $model = new AnimalesModel();
+    $users = $model->mostrarAnimales();
+
+    // Una vez cargados todos los datos mostramos la vista animales
+    require_once('views/animales_view.php');
+}
+
+function eliminarAnimal()
+{
+    $error = "";
+    if (isset($_POST['borrar'])) {
+        $nombre_animal = isset($_POST['id']) ? htmlspecialchars($_POST['id']) : '';
+        
+        if (empty($nombre_animal)) {
+            $error = "Error: No se pudo identificar el animal a eliminar.";
+        } else {
+            require_once("model/animales_model.php");
+            $model = new AnimalesModel();
+            $result = $model->eliminarAnimal($nombre_animal);
+            
+            if ($result) {
+                header('Location: index.php?controlador=animales&action=mostrarAnimales');
+                exit;
+            } else {
+                $error = "Error al eliminar el animal.";
+            }
+        }
+    }
+    
+    // Si hay error, mostrar la vista con el mensaje
+    require_once('model/animales_model.php');
+    $model = new AnimalesModel();
+    $users = $model->mostrarAnimales();
+    require_once('views/animales_view.php');
+}

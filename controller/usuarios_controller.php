@@ -13,6 +13,8 @@ function login()
     if (isset($_POST['entrar'])) {
         $usuario = isset($_POST['user']) ? strip_tags($_POST['user']) : '';
         $passwd = isset($_POST['pass']) ? htmlspecialchars($_POST['pass']) : '';
+
+        // Primero se carga el modelo
         require_once('model/usuarios_model.php');
         $model = new UsuariosModel();
 
@@ -32,6 +34,7 @@ function login()
         }
     }
 
+    // Luego se carga a vista
     require_once("views/login_view.php");
 }
 
@@ -98,6 +101,4 @@ function usuarios()
     require_once("views/usuarios_view.php");
 }
 
-function crearForm(){
-    
-}
+function crearForm() {}
