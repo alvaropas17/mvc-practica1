@@ -78,13 +78,15 @@ function cerrarSesion()
 function borrarUsuario()
 {
     if (isset($_POST['borrar'])) {
-        $id_usuario = $_POST['id_usuario'] ? htmlspecialchars($_POST['id_usuario']) : '';
+        $id_usuario = isset($_POST['id_usuario']) ? htmlspecialchars($_POST['id_usuario']) : '';
         if ($id_usuario > 0) {
             $message = "El campo id está vacío";
         }
         require_once("model/usuarios_model.php");
         $model = new UsuariosModel();
         $userId = $model->delete($id_usuario);
+        header('Location: index.php?controlador=usuarios&action=usuarios');
+        exit;
     }
 }
 
@@ -101,5 +103,3 @@ function usuarios()
     $users = $model->mostrarUsuarios();
     require_once("views/usuarios_view.php");
 }
-
-function crearForm() {}

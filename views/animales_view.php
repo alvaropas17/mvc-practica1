@@ -15,8 +15,8 @@ if (isset($_SESSION['usuario'])) {
             <input type="text" name="especie" id="especie" placeholder="Introduce la especie...">
             <label for="edad">Edad</label>
             <input type="text" name="edad" id="edad" placeholder="Introduce la edad...">
-            <label for="desc">Descripción</label>
-            <input type="text" name="desc" id="desc" placeholder="Introduce una descripción...">
+            <label for="descripcion">Descripción</label>
+            <input type="text" name="descripcion" id="descripcion" placeholder="Introduce una descripción...">
             <button class="primary" name="insertarAnimal" type="submit">Añadir animal</button>
         </form>
     </section>

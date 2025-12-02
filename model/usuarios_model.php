@@ -67,7 +67,7 @@ class UsuariosModel
     public function delete(int $id): bool
     {
         try {
-            $stmt = $this->db->prepare("DELETE FROM usuarios WHERE id=?");
+            $stmt = $this->db->prepare("DELETE FROM usuarios WHERE id_usuario=?");
             $stmt->bind_param("i", $id);
 
             $ok = $stmt->execute();

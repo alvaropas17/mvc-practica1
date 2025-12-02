@@ -63,7 +63,7 @@ if (!isset($_SESSION['usuario'])) {
             <thead>
                 <tr>
                     <th>Usuario</th>
-                    <th>Correo</th>
+                    <th>Sexo</th>
                     <th>Rol</th>
                     <th>Acciones</th>
                 </tr>
@@ -71,19 +71,19 @@ if (!isset($_SESSION['usuario'])) {
             <tbody>
                 <?php if (!empty($users)) {
                     foreach ($users as $u) { ?>
-                        <tr data-id="<?php echo $u['id_usuario']; ?>" data-nombre="<?php echo $u['nombre']; ?>">
+                        <tr>    
+                            <td><?php echo $u['nombre']; ?></td>
                             <td><?php echo $u['localidad'] ?></td>
                             <td><?php echo $u['sexo'] ?></td>
                             <?php
                             if (isset($_SESSION['usuario'])) {
                             ?>
-
                                 <td>
-                                <td><button class="btn-modificar">Modificar</button></td>
-                                <form action="index.php?controlador=usuarios&action=home" method="post">
-                                    <input type="hidden" name="id" id="<?php echo $u['id_usuario']; ?>" value="<?php echo $u['id_usuario']; ?>">
-                                    <input type="submit" id="borrar" name="borrar" value="Borrar">
-                                </form>
+                                    <button class="btn-modificar">Modificar</button>
+                                    <form action="index.php?controlador=usuarios&action=borrarUsuario" method="post" style="display:inline;">
+                                        <input type="hidden" name="id_usuario" id="<?php echo $u['id_usuario']; ?>" value="<?php echo $u['id_usuario']; ?>">
+                                        <input type="submit" name="borrar" value="Borrar" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">
+                                    </form>
                                 </td>
                             <?php
                             }
