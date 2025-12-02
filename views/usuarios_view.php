@@ -51,7 +51,7 @@ if (!isset($_SESSION['usuario'])) {
                 </tr>
             </thead>
         </table>
-        
+
         <div id="formCrearUsuario" style="display: none;">
             <?php echo $formularioUsuario; ?>
         </div>
@@ -81,7 +81,7 @@ if (!isset($_SESSION['usuario'])) {
                                 <td>
                                 <td><button class="btn-modificar">Modificar</button></td>
                                 <form action="index.php?controlador=usuarios&action=home" method="post">
-                                    <input type="hidden" name="id" id="<?php echo $u['id']; ?>" value="<?php echo $u['id']; ?>">
+                                    <input type="hidden" name="id" id="<?php echo $u['id_usuario']; ?>" value="<?php echo $u['id_usuario']; ?>">
                                     <input type="submit" id="borrar" name="borrar" value="Borrar">
                                 </form>
                                 </td>

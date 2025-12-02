@@ -43,7 +43,7 @@ function crearUsuario()
     $message = "";
     if (isset($_POST['crear'])) {
         $nombre = isset($_POST['nombre']) ? strip_tags($_POST['nombre']) : '';
-        $passwd = isset($_POST['pass']) ? strip_tags($_POST['pass']) : '';
+        $passwd = isset($_POST['passwd']) ? strip_tags($_POST['passwd']) : '';
         $sexo = isset($_POST['sexo']) ? htmlspecialchars($_POST['sexo']) : '';
         $localidad = isset($_POST['localidad']) ? htmlspecialchars($_POST['localidad']) : '';
     }
@@ -59,16 +59,13 @@ function crearUsuario()
     }
 }
 
-function mostrarUsuarios()
-{
-    // Obtener los usuarios del modelo
-    require_once('model/usuarios_model.php');
-    $model = new UsuariosModel();
-    $users = $model->mostrarUsuarios();
+// function mostrarUsuarios()
+// {
 
-    // Mostrar la vista de gestión de usuarios
-    require_once("views/usuarios_view.php");
-}
+
+//     // Mostrar la vista de gestión de usuarios
+//     require_once("views/usuarios_view.php");
+// }
 
 function cerrarSesion()
 {
@@ -98,6 +95,10 @@ function contacto()
 
 function usuarios()
 {
+    // Obtener los usuarios del modelo
+    require_once('model/usuarios_model.php');
+    $model = new UsuariosModel();
+    $users = $model->mostrarUsuarios();
     require_once("views/usuarios_view.php");
 }
 
