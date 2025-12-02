@@ -5,7 +5,7 @@
 <?php
 // Definir el formulario en una variable para reutilizarlo
 $formularioUsuario = '
-<section class="card">
+<section class="form-user">
     <form action="index.php?controlador=usuarios&action=crearUsuario" method="post" class="form-user">
         <label for="">Nombre:</label>
         <input type="text" name="nombre" id="nombre" placeholder="Introduce el nombre...">
