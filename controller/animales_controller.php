@@ -12,17 +12,17 @@ function insertarAnimales()
     $message = "";
     if (isset($_POST['crear'])) {
         $nombre = isset($_POST['nombre']) ? strip_tags($_POST['nombre']) : '';
-        $passwd = isset($_POST['passwd']) ? strip_tags($_POST['passwd']) : '';
-        $sexo = isset($_POST['sexo']) ? htmlspecialchars($_POST['sexo']) : '';
-        $localidad = isset($_POST['localidad']) ? htmlspecialchars($_POST['localidad']) : '';
+        $especie = isset($_POST['especie']) ? strip_tags($_POST['especie']) : '';
+        $edad = isset($_POST['edad']) ? htmlspecialchars($_POST['edad']) : '';
+        $descripcion = isset($_POST['descripcion']) ? htmlspecialchars($_POST['descripcion']) : '';
     }
     require_once('model/animales_model.php');
     $model = new AnimalesModel();
 
-    if ($nombre == "" || $passwd = "") {
+    if ($nombre == "" || $especie = "") {
         $message = "El campo nombre o contraseña está vacío.";
     } else {
-        $userId = $model->insertarAnimal($nombre, $passwd, $sexo, $localidad);
+        $userId = $model->insertarAnimal($nombre, $especie, $edad, $descripcion);
         header('Location: index.php');
         exit;
     }
