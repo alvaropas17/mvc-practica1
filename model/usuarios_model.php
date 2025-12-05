@@ -101,4 +101,37 @@ class UsuariosModel
             return array();
         }
     }
+
+    // Función obtener usuario por ID
+    public function obtenerUsuarioPorId(int $id): ?array
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT id_usuario, nombre, localidad, sexo FROM usuarios WHERE id_usuario=?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            
+            $usuario = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+            
+            return $usuario ?: null;
+        } catch (mysqli_sql_exception $e) {
+            return null;
+        }
+    }
+
+    // Función modificar usuario
+    public function modificarUsuario(int $id, string $nombre, string $sexo, string $localidad): bool
+    {
+        try {
+            $stmt = $this->db->prepare("UPDATE usuarios SET nombre=?, sexo=?, localidad=? WHERE id_usuario=?");
+            $stmt->bind_param("sssi", $nombre, $sexo, $localidad, $id);
+            
+            $ok = $stmt->execute();
+            $stmt->close();
+            
+            return $ok;
+        } catch (mysqli_sql_exception $e) {
+            return false;
+        }
+    }
 }

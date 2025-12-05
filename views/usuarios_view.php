@@ -79,7 +79,68 @@ if (!isset($_SESSION['usuario'])) {
                             if (isset($_SESSION['usuario'])) {
                             ?>
                                 <td>
-                                    <button class="btn-modificar">Modificar</button>
+                                    <button class="btn-modificar" 
+                                        data-id="<?php echo $u['id_usuario']; ?>"
+                                        data-nombre="<?php echo htmlspecialchars($u['nombre']); ?>"
+                                        data-sexo="<?php echo htmlspecialchars($u['sexo']); ?>"
+                                        data-localidad="<?php echo htmlspecialchars($u['localidad']); ?>">
+                                        Modificar
+                                    </button>
+                                    <div id="modificar"></div>
+
+                                    <?php
+                                    if (isset($array)) {
+
+                                        echo "<table border><tr><th>Id</th>
+                                        <th>Título</th>
+                                        <th>Descripción</th>
+                                        <th>Imagen</th>
+                                        <th></th>
+                                        <th>Autor</th>
+                                        <th></th>
+                                        </tr>";
+
+                                        foreach ($array as $registro) {
+
+                                            if (is_array($registro)) {
+
+                                                echo '<tr 
+                    data-id="' . htmlspecialchars($registro["id"]) . '"
+                    data-nombre="' . htmlspecialchars($registro["nombre"]) . '"
+                    data-imagen="' . htmlspecialchars($registro["imagen"]) . '"
+                    data-descrip="' . htmlspecialchars($registro["descrip"]) . '"
+                    data-autor="' . htmlspecialchars($registro["autor"]) . '"
+                  >';
+
+                                                // Mostrar cada campo del registro
+                                                foreach ($registro as $key => $campo) {
+                                                    echo "<td data-id>" . htmlspecialchars($campo) . "</td>";
+                                                }
+
+                                                // Botón borrar
+                                                echo '<td>
+                    <form action="" method="post">
+                        <input type="hidden" name="id" value="' . htmlspecialchars($registro["id"]) . '">
+                        <input type="hidden" name="imagen" value="' . htmlspecialchars($registro["imagen"]) . '">
+                        <input type="submit" name="borrar" value="Eliminar">
+                    </form>
+                  </td>';
+
+                                                // Botón modificar (AJAX / JS)
+                                                echo '<td>
+                    <button class="btn-seleccionar">Modificar</button>
+                  </td>';
+
+                                                echo "</tr>";
+                                            }
+                                        }
+
+                                        echo "</table>";
+                                    }
+                                    ?>
+                                    </div>
+                                    </main>
+
                                     <form action="index.php?controlador=usuarios&action=borrarUsuario" method="post" style="display:inline;">
                                         <input type="hidden" name="id_usuario" id="<?php echo $u['id_usuario']; ?>" value="<?php echo $u['id_usuario']; ?>">
                                         <input type="submit" name="borrar" value="Borrar" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">
