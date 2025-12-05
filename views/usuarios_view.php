@@ -71,7 +71,7 @@ if (!isset($_SESSION['usuario'])) {
             <tbody>
                 <?php if (!empty($users)) {
                     foreach ($users as $u) { ?>
-                        <tr>    
+                        <tr>
                             <td><?php echo $u['nombre']; ?></td>
                             <td><?php echo $u['localidad'] ?></td>
                             <td><?php echo $u['sexo'] ?></td>
@@ -93,5 +93,6 @@ if (!isset($_SESSION['usuario'])) {
                 } ?>
             </tbody>
         </table>
+        <div id="formModificar" style="display: none; margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px;"></div>
     </section>
 <?php } ?>

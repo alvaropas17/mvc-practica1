@@ -59,14 +59,6 @@ function crearUsuario()
     }
 }
 
-// function mostrarUsuarios()
-// {
-
-
-//     // Mostrar la vista de gestión de usuarios
-//     require_once("views/usuarios_view.php");
-// }
-
 function cerrarSesion()
 {
     session_start();
