@@ -1,5 +1,9 @@
 // ===== Menú: cambiar vistas =====
 const tabs = document.querySelectorAll(".tab");
+
+let formModificar = document.getElementById("formModificar");
+
+const btnModificar = document.getElementsByClassName("btn-modificar");
 /* const sections = {
   adopcion: document.getElementById("view-adopcion"),
   login: document.getElementById("view-login"),
@@ -104,75 +108,81 @@ if (btnCrearForm && formCrearUsuario) {
 
 // ===== Modificar usuario con AJAX =====
 document.querySelectorAll('.btn-modificar').forEach(boton => {
-    boton.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const id = this.getAttribute('data-id');
-        const nombre = this.getAttribute('data-nombre');
-        const sexo = this.getAttribute('data-sexo');
-        const localidad = this.getAttribute('data-localidad');
-        
-        // Enviar petición AJAX
-        fetch('controller/usuarios_controller.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 
-                'accion=obtenerFormulario' +
-                '&id=' + encodeURIComponent(id) +
-                '&nombre=' + encodeURIComponent(nombre) +
-                '&sexo=' + encodeURIComponent(sexo) +
-                '&localidad=' + encodeURIComponent(localidad)
-        })
-        .then(response => response.text())
-        .then(html => {
-            // Mostrar el formulario en el contenedor
-            const formModificar = document.getElementById('formModificar');
-            if (formModificar) {
-                formModificar.innerHTML = html;
-                formModificar.style.display = 'block';
-                
-                // Scroll suave al formulario
-                formModificar.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-                // Manejar el envío del formulario
-                const form = document.getElementById('formModificarUsuario');
-                if (form) {
-                    form.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        
-                        const formData = new FormData(form);
-                        
-                        fetch('index.php?controlador=usuarios&action=modificarUsuario', {
-                            method: 'POST',
-                            body: formData
-                        })
-                        .then(() => {
-                            window.location.reload();
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Error al modificar el usuario');
-                        });
-                    });
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('No se pudo cargar el formulario');
-        });
-    });
+  boton.addEventListener('click', function (e) {
+    e.preventDefault();
+    const id = this.getAttribute('data-id');
+    const nombre = this.getAttribute('data-nombre');
+    const sexo = this.getAttribute('data-sexo');
+    const localidad = this.getAttribute('data-localidad');
+
+    // Enviar petición AJAX
+    fetch('index.php?controlador=usuarios&action=modificarUsuario', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body:
+        'accion=obtenerFormulario' +
+        '&id=' + encodeURIComponent(id) +
+        '&nombre=' + encodeURIComponent(nombre) +
+        '&sexo=' + encodeURIComponent(sexo) +
+        '&localidad=' + encodeURIComponent(localidad)
+    })
+      .then(response => response.text())
+      .then(html => {
+        if (formModificar) {
+          formModificar.innerHTML = html;
+          formModificar.style.display = 'block';
+
+          // Scroll suave al formulario
+          formModificar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          // Manejar el envío del formulario
+          const form = document.getElementById('formModificarUsuario');
+          if (form) {
+            form.addEventListener('submit', function (e) {
+              e.preventDefault();
+
+              const formData = new FormData(form);
+              
+              // Asegurarse de que el campo 'modificar' está presente
+              if (!formData.has('modificar')) {
+                formData.append('modificar', 'Modificar');
+              }
+
+              fetch('index.php?controlador=usuarios&action=modificarUsuario', {
+                method: 'POST',
+                body: formData
+              })
+                .then(response => {
+                  if (response.ok) {
+                    window.location.reload();
+                  } else {
+                    alert('Error al modificar el usuario');
+                  }
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  alert('Error al modificar el usuario');
+                });
+            });
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('No se pudo cargar el formulario');
+      });
+  });
 });
 
 // Función para cerrar el formulario de modificación
 function cerrarFormulario() {
-    const formModificar = document.getElementById('formModificar');
-    if (formModificar) {
-        formModificar.style.display = 'none';
-        formModificar.innerHTML = '';
-    }
+  formModificar = document.getElementById('formModificar');
+  if (formModificar) {
+    formModificar.style.display = 'none';
+    formModificar.innerHTML = '';
+  }
 }
 
 

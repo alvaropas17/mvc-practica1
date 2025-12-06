@@ -86,7 +86,7 @@ class UsuariosModel
     {
         try {
             // Seleccionamos todos los usuarios
-            $stmt = $this->db->prepare("SELECT id_usuario, nombre, localidad, sexo FROM usuarios");
+            $stmt = $this->db->prepare("SELECT id_usuario, nombre, localidad, rol , sexo FROM usuarios");
 
             // Ejecutamos la consulta
             $stmt->execute();
@@ -109,10 +109,10 @@ class UsuariosModel
             $stmt = $this->db->prepare("SELECT id_usuario, nombre, localidad, sexo FROM usuarios WHERE id_usuario=?");
             $stmt->bind_param("i", $id);
             $stmt->execute();
-            
+
             $usuario = $stmt->get_result()->fetch_assoc();
             $stmt->close();
-            
+
             return $usuario ?: null;
         } catch (mysqli_sql_exception $e) {
             return null;
@@ -125,10 +125,10 @@ class UsuariosModel
         try {
             $stmt = $this->db->prepare("UPDATE usuarios SET nombre=?, sexo=?, localidad=? WHERE id_usuario=?");
             $stmt->bind_param("sssi", $nombre, $sexo, $localidad, $id);
-            
+
             $ok = $stmt->execute();
             $stmt->close();
-            
+
             return $ok;
         } catch (mysqli_sql_exception $e) {
             return false;

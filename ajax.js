@@ -1,4 +1,6 @@
+console.log("Se ejecuta ajax.js");
 document.querySelectorAll('.btn-seleccionar').forEach(boton => {
+    console.log("btn seleccionar ha sido seleccionado: " + boton);
     boton.addEventListener('click', (evento) => {
         evento.preventDefault();
 
@@ -12,7 +14,7 @@ document.querySelectorAll('.btn-seleccionar').forEach(boton => {
         console.log(nombre);
 
         // Enviar datos por AJAX (fetch)
-        fetch('controller/tratamiento_controller.php', {
+        fetch('controller/usuarios_controller.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

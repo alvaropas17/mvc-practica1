@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-12-2025 a las 18:20:29
+-- Tiempo de generación: 06-12-2025 a las 20:50:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -46,6 +46,7 @@ CREATE TABLE `animales` (
 CREATE TABLE `usuarios` (
   `contrasenia` varchar(255) NOT NULL,
   `sexo` varchar(20) NOT NULL,
+  `rol` varchar(15) NOT NULL,
   `localidad` varchar(50) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `id_usuario` int(100) NOT NULL
@@ -55,8 +56,8 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`contrasenia`, `sexo`, `localidad`, `nombre`, `id_usuario`) VALUES
-('$2y$10$bAEG6j6Y1.LyJ5SZvVxVe.JHRDw2riD0Py/eCrYpLUUIbeI3URHyi', 'Hombre', 'Lorca', 'alvaro', 1);
+INSERT INTO `usuarios` (`contrasenia`, `sexo`, `rol`, `localidad`, `nombre`, `id_usuario`) VALUES
+('$2y$10$bAEG6j6Y1.LyJ5SZvVxVe.JHRDw2riD0Py/eCrYpLUUIbeI3URHyi', 'Hombre', 'Admin', 'Lorca', 'pepe', 1);
 
 --
 -- Índices para tablas volcadas
@@ -82,7 +83,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas

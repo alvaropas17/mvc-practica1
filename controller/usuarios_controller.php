@@ -98,40 +98,17 @@ function usuarios()
 
 function modificarUsuario()
 {
-    // Si es una petición POST para guardar cambios
-    if (isset($_POST['modificar'])) {
-        $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
-        $nombre = isset($_POST['nombre']) ? strip_tags($_POST['nombre']) : '';
-        $sexo = isset($_POST['sexo']) ? htmlspecialchars($_POST['sexo']) : '';
-        $localidad = isset($_POST['localidad']) ? htmlspecialchars($_POST['localidad']) : '';
-
-        if ($id > 0 && $nombre != "") {
-            require_once('model/usuarios_model.php');
-            $model = new UsuariosModel();
-            $result = $model->modificarUsuario($id, $nombre, $sexo, $localidad);
-            
-            if ($result) {
-                header('Location: index.php?controlador=usuarios&action=usuarios');
-                exit;
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Error al modificar el usuario.']);
-            }
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Datos inválidos.']);
-        }
-    }
-    
     // Si es una petición AJAX para obtener el formulario
     if (isset($_POST['accion']) && $_POST['accion'] === 'obtenerFormulario') {
         $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : '';
         $sexo = isset($_POST['sexo']) ? $_POST['sexo'] : '';
         $localidad = isset($_POST['localidad']) ? $_POST['localidad'] : '';
-        
+
         echo '
         <div class="formulario-container">
             <h3>Modificar Usuario</h3>
-            <form id="formModificarUsuario" method="post">
+            <form id="formModificarUsuario" method="post" action="index.php?controlador=usuarios&action=modificarUsuario">
                 <label><b>ID:</b></label>
                 <input type="text" name="id" value="' . htmlspecialchars($id) . '" readonly>
 
@@ -149,5 +126,28 @@ function modificarUsuario()
             </form>
         </div>';
         exit;
+    }
+
+    // Si es una petición POST para guardar cambios
+    if (isset($_POST['modificar'])) {
+        $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+        $nombre = isset($_POST['nombre']) ? strip_tags($_POST['nombre']) : '';
+        $sexo = isset($_POST['sexo']) ? htmlspecialchars($_POST['sexo']) : '';
+        $localidad = isset($_POST['localidad']) ? htmlspecialchars($_POST['localidad']) : '';
+
+        if ($id > 0 && $nombre != "") {
+            require_once('model/usuarios_model.php');
+            $model = new UsuariosModel();
+            $result = $model->modificarUsuario($id, $nombre, $sexo, $localidad);
+
+            if ($result) {
+                header('Location: index.php?controlador=usuarios&action=usuarios');
+                exit;
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al modificar el usuario.']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Datos inválidos.']);
+        }
     }
 }

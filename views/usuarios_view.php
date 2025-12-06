@@ -40,16 +40,20 @@ if (!isset($_SESSION['usuario'])) {
                 <tr>
                     <th>Nombre de usuario</th>
                     <th>Correo</th>
-                    <th><select name="nombre_del_select" id="id_del_select">
+                    <th>Rol: <select name="nombre_del_select" id="id_del_select">
                             <option value="Administrador">Administrador</option>
                             <option value="editor">Editor</option>
                             <option value="visor">Visor</option>
                         </select></th>
                 </tr>
-                <tr>
-                    <td><button type="button" id="btnCrearForm">Crear usuario</button></td>
-                </tr>
             </thead>
+            <tbody>
+                <td><input type="text" name="nombre" id="nombre"></td>
+                <td><input type="text" name="correo" id="correo"></td>
+            </tbody>
+            <tr>
+                <td><button type="button" id="btnCrearForm">Crear usuario</button></td>
+            </tr>
         </table>
 
         <div id="formCrearUsuario" style="display: none;">
@@ -63,6 +67,7 @@ if (!isset($_SESSION['usuario'])) {
             <thead>
                 <tr>
                     <th>Usuario</th>
+                    <th>Localidad</th>
                     <th>Sexo</th>
                     <th>Rol</th>
                     <th>Acciones</th>
@@ -75,85 +80,43 @@ if (!isset($_SESSION['usuario'])) {
                             <td><?php echo $u['nombre']; ?></td>
                             <td><?php echo $u['localidad'] ?></td>
                             <td><?php echo $u['sexo'] ?></td>
+                            <td><?php echo isset($u['rol']) ? $u['rol'] : 'Sin rol';  ?></td>
                             <?php
                             if (isset($_SESSION['usuario'])) {
                             ?>
+                                <!-- <div id="modificar"></div> -->
+
+                                <?php
+                                console_log("Antes del array");
+                                // if (isset($users)) { 
+                                ?>
                                 <td>
-                                    <button class="btn-modificar" 
-                                        data-id="<?php echo $u['id_usuario']; ?>"
-                                        data-nombre="<?php echo htmlspecialchars($u['nombre']); ?>"
-                                        data-sexo="<?php echo htmlspecialchars($u['sexo']); ?>"
-                                        data-localidad="<?php echo htmlspecialchars($u['localidad']); ?>">
+                                    <button class="btn-modificar"
+                                        data-id="<?php echo $u['id_usuario'] ?>"
+                                        data-nombre="<?php echo $u['nombre'] ?>"
+                                        data-sexo="<?php echo $u['sexo'] ?>"
+                                        data-localidad="<?php echo $u['localidad'] ?>">
                                         Modificar
                                     </button>
-                                    <div id="modificar"></div>
-
-                                    <?php
-                                    if (isset($array)) {
-
-                                        echo "<table border><tr><th>Id</th>
-                                        <th>Título</th>
-                                        <th>Descripción</th>
-                                        <th>Imagen</th>
-                                        <th></th>
-                                        <th>Autor</th>
-                                        <th></th>
-                                        </tr>";
-
-                                        foreach ($array as $registro) {
-
-                                            if (is_array($registro)) {
-
-                                                echo '<tr 
-                    data-id="' . htmlspecialchars($registro["id"]) . '"
-                    data-nombre="' . htmlspecialchars($registro["nombre"]) . '"
-                    data-imagen="' . htmlspecialchars($registro["imagen"]) . '"
-                    data-descrip="' . htmlspecialchars($registro["descrip"]) . '"
-                    data-autor="' . htmlspecialchars($registro["autor"]) . '"
-                  >';
-
-                                                // Mostrar cada campo del registro
-                                                foreach ($registro as $key => $campo) {
-                                                    echo "<td data-id>" . htmlspecialchars($campo) . "</td>";
-                                                }
-
-                                                // Botón borrar
-                                                echo '<td>
-                    <form action="" method="post">
-                        <input type="hidden" name="id" value="' . htmlspecialchars($registro["id"]) . '">
-                        <input type="hidden" name="imagen" value="' . htmlspecialchars($registro["imagen"]) . '">
-                        <input type="submit" name="borrar" value="Eliminar">
-                    </form>
-                  </td>';
-
-                                                // Botón modificar (AJAX / JS)
-                                                echo '<td>
-                    <button class="btn-seleccionar">Modificar</button>
-                  </td>';
-
-                                                echo "</tr>";
-                                            }
-                                        }
-
-                                        echo "</table>";
-                                    }
-                                    ?>
-                                    </div>
-                                    </main>
-
                                     <form action="index.php?controlador=usuarios&action=borrarUsuario" method="post" style="display:inline;">
                                         <input type="hidden" name="id_usuario" id="<?php echo $u['id_usuario']; ?>" value="<?php echo $u['id_usuario']; ?>">
                                         <input type="submit" name="borrar" value="Borrar" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">
                                     </form>
                                 </td>
-                            <?php
-                            }
-                            ?>
                         </tr>
-                <?php }
-                } ?>
-            </tbody>
+                    <?php           } ?>
         </table>
-        <div id="formModificar" style="display: none; margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px;"></div>
+        </div>
+        </main>
+
+        </td>
+    <?php
+                    }
+    ?>
+    </tr>
+<?php }
+            } ?>
+</tbody>
+</table>
+<div id="formModificar" style="display: none; margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px;"></div>
     </section>
-<?php } ?>

@@ -16,12 +16,6 @@
   require_once("controller/front_controller.php");
   ?>
 
-  <form action="" id="formEditarUsuario" class="form-user">
-    <input type="hidden" name="" value="${idUsuario}">
-    <label for="">Nombre:</label>
-    <input type="text" name="nombre" id="" value="${nombre}" required>
-  </form>
-
 </body>
 
 </html>
