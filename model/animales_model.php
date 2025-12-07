@@ -13,7 +13,7 @@ class AnimalesModel
     {
         try {
             $stmt = $this->db->prepare("INSERT INTO animales(imagen, fecha_subida, nombre_animal, descripcion, id_usuario, especie, edad) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssissi", $imagen, $fecha_subida, $nombre_animal, $descripcion, $id_usuario, $especie, $edad);
+            $stmt->bind_param("ssssisi", $imagen, $fecha_subida, $nombre_animal, $descripcion, $id_usuario, $especie, $edad);
             // Ejecutamos la consulta
             $ok = $stmt->execute();
 
@@ -25,11 +25,27 @@ class AnimalesModel
         }
     }
 
-    public function eliminarAnimal(string $nombre): bool
+    public function modificarAnimal(string $imagen, string $fecha_subida, string $nombre_animal, string $descripcion, int $id_animal, string $especie, int $edad): bool
     {
         try {
-            $stmt = $this->db->prepare("DELETE FROM animales WHERE nombre=?");
-            $stmt->bind_param("s", $nombre);
+            $stmt = $this->db->prepare("UPDATE animales SET imagen = ?, fecha_subida = ?, nombre_animal = ?, descripcion = ?, id_animal = ?, especie = ?, edad = ? WHERE id_animal = ?");
+            $stmt->bind_param("ssssisis", $imagen, $fecha_subida, $nombre_animal, $descripcion, $id_animal, $especie, $edad, $id_animal);
+
+            // Una vez preparada debemos de ejecutarla
+            $ok = $stmt->execute();
+            $stmt->close();
+
+            return $ok;
+        } catch (mysqli_sql_exception $e) {
+            throw new RuntimeException("Error en la modificación: " . $e->getMessage(), 0, $e);
+        }
+    }
+
+    public function eliminarAnimal(int $id_animal): bool
+    {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM animales WHERE id_animal=?");
+            $stmt->bind_param("i", $id_animal);
 
             $ok = $stmt->execute();
             $stmt->close();

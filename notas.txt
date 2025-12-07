@@ -209,3 +209,265 @@ GitHub Copilot: El problema de que las páginas tarden en cargar, incluso estand
    - **Solución**: Limpia la caché del navegador o prueba en otro navegador.
 
 Si necesitas ayuda para revisar un archivo específico o realizar pruebas, indícalo y puedo ayudarte a analizar el código.
+
+
+Conversación 3:
+alvaropas17: cómo se hace para subir una foto a una base de datos?
+
+GitHub Copilot: Para subir una foto a una base de datos en un proyecto PHP, normalmente se sigue este proceso:
+
+1. En el formulario HTML, se usa un campo `<input type="file">` para seleccionar la imagen.
+2. En el backend (PHP), se recibe el archivo usando `$_FILES`.
+3. Se puede guardar la imagen directamente en la base de datos (como tipo BLOB) o guardar solo la ruta en la base de datos y el archivo en una carpeta del servidor.
+
+**Recomendación:** Es más eficiente guardar la imagen en una carpeta y solo almacenar la ruta en la base de datos.
+
+**Ejemplo básico:**
+
+1. Formulario HTML:
+```html
+<form action="subir.php" method="post" enctype="multipart/form-data">
+  <input type="file" name="foto">
+  <input type="submit" value="Subir">
+</form>
+```
+
+2. Código PHP para guardar la imagen y la ruta:
+```php
+// subir.php
+$carpeta = "img/";
+$archivo = $carpeta . basename($_FILES["foto"]["name"]);
+if (move_uploaded_file($_FILES["foto"]["tmp_name"], $archivo)) {
+    // Conexión a la base de datos
+    // Guardar $archivo (la ruta) en la base de datos
+    $sql = "INSERT INTO tabla (ruta_imagen) VALUES ('$archivo')";
+    // Ejecutar la consulta...
+} else {
+    echo "Error al subir la imagen.";
+}
+```
+
+¿Quieres que te ayude a implementar esto en tu proyecto MVC? Si es así, dime en qué modelo y vista lo necesitas.
+
+alvaropas17: pero el código php en qué archivo tiene que ir?
+
+GitHub Copilot: En un proyecto MVC como el tuyo, el código PHP para procesar la subida de la imagen debe estar distribuido así:
+
+- **Vista (animales_view.php o el formulario correspondiente):** Aquí va el formulario HTML para seleccionar y subir la imagen.
+- **Controlador (animales_controller.php):** Aquí se recibe la petición del formulario, se procesa la imagen y se llama al modelo.
+- **Modelo (animales_model.php):** Aquí se realiza la inserción de la ruta de la imagen en la base de datos.
+
+¿Quieres que te ayude a agregar el formulario y el código en cada parte?
+
+alvaropas17: podrías hacer tú los cambios para ver cómo se pondría?
+
+GitHub Copilot: Perfecto. Para implementar la subida de fotos de animales en tu sistema MVC, haré los siguientes cambios:
+
+1. Agregaré un formulario de subida de imagen en animales_view.php.
+2. Modificaré el controlador animales_controller.php para procesar la subida.
+3. Actualizaré el modelo animales_model.php para guardar la ruta de la imagen en la base de datos.
+
+Comenzaré agregando el formulario en la vista. 
+
+Read [](file:///c%3A/xampp/htdocs/mvc-practica1-1/views/animales_view.php#1-1), lines 1 to 40
+
+En tu vista, el formulario para subir la foto está incorrectamente anidado dentro del formulario principal y apunta a `subir.php`. Debe ser parte del mismo formulario que envía los datos del animal y debe tener `enctype="multipart/form-data"` para permitir la subida de archivos.
+
+Voy a corregir el formulario para que incluya el campo de imagen y envíe todo junto al controlador de animales. 
+
+Using "Apply Patch"
+
+
+```
+
+```
+Listo. El formulario en animales_view.php ahora permite subir una foto junto con los datos del animal, enviando todo al controlador de animales.
+
+El siguiente paso es modificar el controlador `animales_controller.php` para procesar la imagen y los datos recibidos. ¿Quieres que continúe con esa parte?
+
+Made changes.
+
+alvaropas17: si
+
+GitHub Copilot: Read [](file:///c%3A/xampp/htdocs/mvc-practica1-1/controller/animales_controller.php#1-1), lines 1 to 50
+
+Ahora modificaré la función `insertarAnimales` para procesar la imagen subida, guardarla en la carpeta img y pasar la ruta al modelo.
+
+Haré que si se sube una imagen, se guarde en img y se use esa ruta; si no, se usará la imagen por defecto. 
+
+Using "Apply Patch"
+
+
+```
+
+```
+Listo. El controlador ahora procesa la imagen subida, la guarda en la carpeta img y pasa la ruta al modelo. Si no se sube imagen, usa la imagen por defecto.
+
+El siguiente paso es asegurar que el modelo `animales_model.php` guarde la ruta de la imagen en la base de datos. ¿Quieres que continúe con esa parte?
+
+Made changes.
+
+alvaropas17: si
+
+GitHub Copilot: Read [](file:///c%3A/xampp/htdocs/mvc-practica1-1/model/animales_model.php#1-1), lines 1 to 40
+
+El modelo ya tiene el método `insertarAnimal` que guarda la ruta de la imagen en la base de datos (campo `imagen`). No es necesario modificar el modelo, ya que el controlador le pasa la ruta correctamente.
+
+¿Quieres que te ayude a mostrar la imagen en la vista de animales, o necesitas probar la subida primero?
+
+alvaropas17: por alguna razón ahora está fallando esto, entiendo que lo que quiere decir es que lo que falla es la clave foránea, de hecho quizás es el id usuario, ¿me lo puedes confirmar?
+Error en la inserción: Cannot add or update a child row: a foreign key constraint fails (`adopciones`.`animales`, CONSTRAINT `fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
+
+GitHub Copilot: Sí, el error indica que el valor de `id_usuario` que se está intentando insertar en la tabla `animales` no existe en la tabla `usuarios`. Es un error de clave foránea.
+
+Esto puede ocurrir si:
+- El usuario no está logueado y el valor de `$id_usuario` es 0 o nulo.
+- El valor de `$_SESSION['usuario']['id']` no corresponde a ningún `id_usuario` existente en la tabla `usuarios`.
+
+Para solucionarlo:
+1. Verifica que el usuario esté logueado antes de insertar.
+2. Asegúrate de que el valor de `$id_usuario` corresponde a un usuario válido en la base de datos.
+
+¿Quieres que revise y mejore la validación en el controlador para evitar este error?
+
+alvaropas17: el usuario sí que está logueado, más que nada porque yo tengo iniciada la sesión con el usuario que yo he puesto, sino no podría acceder al formulario de añadir animales, ¿cómo puedo asegurarme de que es o no eso?
+
+GitHub Copilot: Para asegurarte de que el valor de `$id_usuario` es correcto y existe en la base de datos, puedes hacer lo siguiente:
+
+1. **Verifica el valor de la variable:** Muestra el valor de `$_SESSION['usuario']['id']` antes de la inserción.
+2. **Comprueba en la base de datos:** Revisa que ese `id_usuario` existe en la tabla `usuarios`.
+3. **Agrega una comprobación en el controlador:** Antes de insertar, consulta la base de datos para verificar que el usuario existe.
+
+¿Quieres que añada una comprobación en el controlador para mostrar el valor de `$id_usuario` y verificar si existe en la base de datos antes de insertar?
+
+alvaropas17: a qué te refieres con verificar el valor de la variable antes de la inserción?
+
+GitHub Copilot: Me refiero a mostrar el valor de la variable `$id_usuario` justo antes de llamar al modelo para insertar el animal. Así puedes ver qué valor se está usando y confirmar que corresponde a un usuario existente.
+
+Por ejemplo, puedes agregar una línea como esta antes de la inserción:
+```php
+console_log("ID de usuario usado: " . $id_usuario);
+```
+O simplemente:
+```php
+echo "ID de usuario usado: " . $id_usuario;
+```
+
+Esto te permitirá ver en la consola o en la página el valor que se está enviando a la base de datos. Si el valor no corresponde a un usuario existente, ahí está el problema.
+
+¿Quieres que añada esta línea en tu controlador para que puedas comprobarlo?
+
+alvaropas17: curioso, por alguna razón me pone id 0 que no corresponde con ninguno de la tabla de usuarios, pero supuestamente con esta línea lo debería de pillar no?
+
+GitHub Copilot: Correcto, con la línea:
+```php
+$id_usuario = isset($_SESSION['usuario']['id']) ? $_SESSION['usuario']['id'] : 0;
+```
+debería obtener el ID del usuario logueado. Si el valor es 0, significa que `$_SESSION['usuario']['id']` no está definido correctamente en la sesión.
+
+Esto puede ocurrir si:
+- La clave `id` no existe en `$_SESSION['usuario']`.
+- La sesión no está iniciada correctamente.
+- El nombre de la clave es diferente (por ejemplo, `id_usuario` en vez de `id`).
+
+**Solución:**
+1. Verifica el contenido de `$_SESSION['usuario']` antes de asignar el ID.
+2. Asegúrate de que la sesión esté iniciada con `session_start()`.
+
+¿Quieres que añada una línea para mostrar el contenido de `$_SESSION['usuario']` y así comprobar qué datos tiene?
+
+alvaropas17: pero es que hay una sesión de usuario porque sino no se podría acceder a ese menú, no sé muy bien por qué está pasando esto y el session start está en el front controller
+
+GitHub Copilot: Entiendo tu confusión. El problema no es que la sesión no esté iniciada, sino que la clave que usas para el ID puede no ser la correcta.
+
+En tu base de datos, el campo es `id_usuario`, pero en el controlador usas `$_SESSION['usuario']['id']`. Si al iniciar sesión guardas el usuario en la sesión con la clave `id_usuario`, deberías acceder así:
+```php
+$id_usuario = isset($_SESSION['usuario']['id_usuario']) ? $_SESSION['usuario']['id_usuario'] : 0;
+```
+Si usas `id` y no `id_usuario`, el valor será 0.
+
+**Solución recomendada:**
+1. Verifica cómo guardas el usuario en la sesión al iniciar sesión.
+2. Cambia la línea en el controlador para usar la clave correcta.
+
+¿Quieres que te ayude a buscar y corregir cómo se guarda el usuario en la sesión?
+
+alvaropas17: pero es que así lo estoy haciendo
+
+GitHub Copilot: Created 2 todos
+
+Searched codebase for "$_SESSION['usuario']", 18 results
+
+El problema está en cómo guardas el usuario en la sesión al iniciar sesión. En tu controlador de login tienes esto:
+
+```php
+if ($userId > 0) {
+    $_SESSION['usuario'] = $usuario;
+    $_SESSION['user_id'] = $userId;
+    header('Location: index.php');
+    exit;
+}
+```
+
+Así, `$_SESSION['usuario']` solo contiene el nombre de usuario, no un array con el campo `id_usuario`. Por eso, cuando intentas acceder a `$_SESSION['usuario']['id_usuario']`, el valor es 0.
+
+**Solución:**  
+Guarda el usuario en la sesión como un array con el campo `id_usuario`. Por ejemplo:
+
+```php
+if ($userId > 0) {
+    $_SESSION['usuario'] = [
+        'nombre' => $usuario,
+        'id_usuario' => $userId
+    ];
+    header('Location: index.php');
+    exit;
+}
+```
+
+¿Quieres que aplique este cambio en tu controlador de login?
+
+alvaropas17: pero si cambio la estructura del login se me va a romper la aplicación porque hay muchas funciones que están hechas para esa estructura. ¿hay que cambiarlas?
+
+GitHub Copilot: Sí, si cambias la estructura de la sesión para guardar el usuario como un array, tendrás que actualizar todas las partes del código que acceden a `$_SESSION['usuario']`. Por ejemplo, si antes usabas `$_SESSION['usuario']` para obtener el nombre, ahora deberás usar `$_SESSION['usuario']['nombre']`.
+
+**Opciones:**
+1. Cambiar la estructura y actualizar todas las referencias en el proyecto.
+2. Mantener la estructura actual y usar `$_SESSION['user_id']` para el ID en el controlador de animales:
+   ```php
+   $id_usuario = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
+   ```
+
+La opción 2 es más rápida y no rompe el resto de la aplicación. ¿Quieres que adapte el controlador de animales para usar `$_SESSION['user_id']`?
+
+alvaropas17: entonces explícame para qué sirve el $usuario?
+
+GitHub Copilot: El valor de `$usuario` en tu controlador de login representa el nombre de usuario que el usuario ha introducido en el formulario de inicio de sesión. Se utiliza para:
+
+- Verificar la identidad del usuario junto con la contraseña.
+- Guardar el nombre del usuario en la sesión (`$_SESSION['usuario']`), para mostrarlo en la interfaz (por ejemplo, en el menú o mensajes personalizados).
+
+En tu código actual:
+```php
+$_SESSION['usuario'] = $usuario; // Guarda el nombre de usuario
+$_SESSION['user_id'] = $userId;  // Guarda el ID del usuario
+```
+Así puedes mostrar el nombre del usuario en la vista y usar el ID para operaciones en la base de datos.
+
+¿Te gustaría que te muestre cómo acceder y mostrar el nombre del usuario en tus vistas?
+
+alvaropas17: no veo necesario hacer esta función tan larga cuando los datos que se están recibiendo son los mismos, de hecho, ¿por qué se recogen ambas veces? es decir, supongo que una de las veces es para recoger los datos que ya había previamente en el formulario y la otra es para los nuevos, ¿o me estoy equivocando?
+
+GitHub Copilot: Tu razonamiento es correcto. En la función `modificarUsuario`, los datos se recogen dos veces porque:
+
+1. **Primera vez (con `$_POST['accion'] === 'obtenerFormulario'`):**  
+   Se reciben los datos actuales del usuario (ID, nombre, sexo, rol, localidad) para mostrar el formulario de modificación con los valores ya existentes. Esto se usa para rellenar el formulario con los datos actuales antes de que el usuario los cambie.
+
+2. **Segunda vez (con `$_POST['modificar']`):**  
+   Se recogen los datos que el usuario ha modificado y enviado en el formulario para actualizar el usuario en la base de datos.
+
+Esto es común en aplicaciones web que usan AJAX para mostrar un formulario de edición con los datos actuales y luego procesar los datos modificados al enviarlo.
+
+Si quieres simplificar la función, podrías separar la lógica en dos funciones distintas (una para mostrar el formulario y otra para procesar la modificación), pero la doble recogida de datos es necesaria para este flujo.
+
+¿Quieres que te ayude a simplificar la función o dejarla más clara?

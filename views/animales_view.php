@@ -33,7 +33,7 @@ if (isset($_SESSION['usuario'])) {
                 </div>
             </div>
             <div style="display:flex; justify-content:center; align-items:center;">
-                <button type="submit" name="crear" class="btn-crear" style="background:#2563eb; color:#fff; font-size:1.15rem; border-radius:30px; padding:0.7rem 2.2rem; font-weight:600; border:none; box-shadow:0 2px 8px rgba(37,99,235,0.10); cursor:pointer;">Añadir animal</button>
+                <button type="submit" name="crearAnimal" class="btn-crear" style="background:#2563eb; color:#fff; font-size:1.15rem; border-radius:30px; padding:0.7rem 2.2rem; font-weight:600; border:none; box-shadow:0 2px 8px rgba(37,99,235,0.10); cursor:pointer;">Añadir animal</button>
             </div>
         </form>
         <p id="loginMsg" class="muted" style="margin-top:.5rem"><?= isset($message) ? $message : "" ?></p>
@@ -62,17 +62,28 @@ if (isset($_SESSION['usuario'])) {
         </thead>
         <tbody>
             <?php if (!empty($users)) {
-                foreach ($users as $animal) { ?>
-                    <tr data-nombre="<?php echo htmlspecialchars($animal['nombre']); ?>" style="border-bottom:1px solid #f1f5f9; transition:background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#fff'">
-                        <td style="padding:14px 16px; font-size:0.95rem; color:#0f172a; font-weight:500;"><?php echo htmlspecialchars($animal['nombre']); ?></td>
+                foreach ($users as $animal) {
+                    console_log($animal) ?>
+                    <tr data-nombre="<?php echo htmlspecialchars($animal['nombre_animal']); ?>" style="border-bottom:1px solid #f1f5f9; transition:background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#fff'">
+                        <td style="padding:14px 16px; font-size:0.95rem; color:#0f172a; font-weight:500;"><?php echo htmlspecialchars($animal['nombre_animal']); ?></td>
                         <td style="padding:14px 16px; font-size:0.95rem; color:#64748b;"><?php echo htmlspecialchars($animal['especie']); ?></td>
                         <td style="padding:14px 16px; font-size:0.95rem; color:#64748b;"><?php echo htmlspecialchars($animal['edad']); ?></td>
                         <td style="padding:14px 16px; font-size:0.95rem; color:#64748b;"><?php echo htmlspecialchars($animal['descripcion']); ?></td>
                         <?php if (isset($_SESSION['usuario'])) { ?>
                             <td style="padding:14px 16px; text-align:center;">
-                                <button class="btn-modificar" style="margin-right:8px;">Modificar</button>
+                                <button class="btn-modificar-Animales"
+                                    data-id_animal="<?php echo $animal['id_animal']; ?>"
+                                    data-imagen="<?php echo $animal['imagen']; ?>"
+                                    data-fecha_subida="<?php echo $animal['fecha_subida']; ?>"
+                                    data-nombre_animal="<?php echo $animal['nombre_animal'] ?>"
+                                    data-especie="<?php echo $animal['especie'] ?>"
+                                    data-edad="<?php echo $animal['edad'] ?>"
+                                    data-descripcion="<?php echo $animal['descripcion'] ?>"
+                                    style="margin-right:8px;">
+                                    Modificar
+                                </button>
                                 <form action="index.php?controlador=animales&action=eliminarAnimal" method="post" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($animal['nombre']); ?>">
+                                    <input type="hidden" name="id_animal" value="<?php echo htmlspecialchars($animal['id_animal']); ?>">
                                     <input type="submit" name="borrar" value="Borrar" class="btn-borrar" onclick="return confirm('¿Estás seguro de que quieres eliminar este animal?');">
                                 </form>
                             </td>
