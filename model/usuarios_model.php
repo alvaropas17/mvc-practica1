@@ -44,12 +44,12 @@ class UsuariosModel
     }
 
     // Función crear usuario
-    public function crearUsuario(string $nombreUsuario, string $pass, string $sexo, string $localidad): bool
+    public function crearUsuario(string $nombreUsuario, string $pass, string $sexo, string $rol, string $localidad): bool
     {
         try {
             $passHash = password_hash($pass, PASSWORD_DEFAULT);
-            $stmt = $this->db->prepare("INSERT INTO usuarios (nombre, contrasenia, sexo, localidad) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $nombreUsuario, $passHash, $sexo, $localidad);
+            $stmt = $this->db->prepare("INSERT INTO usuarios (nombre, contrasenia, sexo, rol, localidad) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $nombreUsuario, $passHash, $sexo, $rol, $localidad);
 
             // Ejecutamos la consulta
             $ok = $stmt->execute();
@@ -120,11 +120,11 @@ class UsuariosModel
     }
 
     // Función modificar usuario
-    public function modificarUsuario(int $id, string $nombre, string $sexo, string $localidad): bool
+    public function modificarUsuario(int $id, string $nombre, string $sexo, string $rol, string $localidad): bool
     {
         try {
-            $stmt = $this->db->prepare("UPDATE usuarios SET nombre=?, sexo=?, localidad=? WHERE id_usuario=?");
-            $stmt->bind_param("sssi", $nombre, $sexo, $localidad, $id);
+            $stmt = $this->db->prepare("UPDATE usuarios SET nombre=?, sexo=?, rol=?, localidad=? WHERE id_usuario=?");
+            $stmt->bind_param("ssssi", $nombre, $sexo, $rol, $localidad, $id);
 
             $ok = $stmt->execute();
             $stmt->close();

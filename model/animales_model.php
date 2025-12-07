@@ -9,12 +9,11 @@ class AnimalesModel
         $this->db = Conectar::conexion();
     }
 
-    public function insertarAnimal(string $nombre, string $especie, string $edad, string $descripcion): bool
+    public function insertarAnimal(string $imagen, string $fecha_subida, string $nombre_animal, string $descripcion, int $id_usuario, string $especie, int $edad): bool
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO animales(nombre, especie, edad, descripcion) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $nombre, $especie, $edad, $descripcion);
-
+            $stmt = $this->db->prepare("INSERT INTO animales(imagen, fecha_subida, nombre_animal, descripcion, id_usuario, especie, edad) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssissi", $imagen, $fecha_subida, $nombre_animal, $descripcion, $id_usuario, $especie, $edad);
             // Ejecutamos la consulta
             $ok = $stmt->execute();
 

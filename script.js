@@ -107,81 +107,94 @@ if (btnCrearForm && formCrearUsuario) {
 }
 
 // ===== Modificar usuario con AJAX =====
-document.querySelectorAll('.btn-modificar').forEach(boton => {
-  boton.addEventListener('click', function (e) {
-    e.preventDefault();
-    const id = this.getAttribute('data-id');
-    const nombre = this.getAttribute('data-nombre');
-    const sexo = this.getAttribute('data-sexo');
-    const localidad = this.getAttribute('data-localidad');
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.btn-modificar').forEach(boton => {
+    boton.addEventListener('click', function (e) {
+      e.preventDefault();
+      let id = this.getAttribute('data-id');
+      let nombre = this.getAttribute('data-nombre');
+      let sexo = this.getAttribute('data-sexo');
+      let rol = this.getAttribute('data-rol');
+      let localidad = this.getAttribute('data-localidad');
+      let formModificar = document.getElementById("formModificar");
 
-    // Enviar petición AJAX
-    fetch('index.php?controlador=usuarios&action=modificarUsuario', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body:
-        'accion=obtenerFormulario' +
-        '&id=' + encodeURIComponent(id) +
-        '&nombre=' + encodeURIComponent(nombre) +
-        '&sexo=' + encodeURIComponent(sexo) +
-        '&localidad=' + encodeURIComponent(localidad)
-    })
-      .then(response => response.text())
-      .then(html => {
-        if (formModificar) {
-          formModificar.innerHTML = html;
-          formModificar.style.display = 'block';
+      console.log(id, nombre, sexo, rol, localidad);
+      // Enviar petición AJAX
+      fetch('index.php?controlador=usuarios&action=modificarUsuario',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body:
+            'accion=obtenerFormulario' +
+            '&id=' + encodeURIComponent(id) +
+            '&nombre=' + encodeURIComponent(nombre) +
+            '&sexo=' + encodeURIComponent(sexo) +
+            '&rol=' + encodeURIComponent(rol) +
+            '&localidad=' + encodeURIComponent(localidad)
+        })
+        .then(response => response.text())
+        .then(html => {
+          console.log("Ha pasado el then");
+          if (formModificar) {
+            // console.log("Ha pasado el formModificar" + formModificar);
+            formModificar.innerHTML = html;
+            formModificar.style.display = 'block';
 
-          // Scroll suave al formulario
-          formModificar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Scroll suave al formulario
+            formModificar.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-          // Manejar el envío del formulario
-          const form = document.getElementById('formModificarUsuario');
-          if (form) {
-            form.addEventListener('submit', function (e) {
-              e.preventDefault();
+            // Manejar el envío del formulario
+            const form = document.getElementById('formModificarUsuario');
+            if (form) {
+              form.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-              const formData = new FormData(form);
-              
-              // Asegurarse de que el campo 'modificar' está presente
-              if (!formData.has('modificar')) {
-                formData.append('modificar', 'Modificar');
-              }
+                const formData = new FormData(form);
 
-              fetch('index.php?controlador=usuarios&action=modificarUsuario', {
-                method: 'POST',
-                body: formData
-              })
-                .then(response => {
-                  if (response.ok) {
-                    window.location.reload();
-                  } else {
-                    alert('Error al modificar el usuario');
-                  }
+                // Asegurarse de que el campo 'modificar' está presente
+                if (!formData.has('modificar')) {
+                  formData.append('modificar', 'Modificar');
+                }
+
+                fetch('index.php?controlador=usuarios&action=modificarUsuario', {
+                  method: 'POST',
+                  body: formData
                 })
-                .catch(error => {
-                  console.error('Error:', error);
-                  alert('Error al modificar el usuario');
-                });
-            });
+                  .then(response => {
+                    if (response.ok) {
+                      window.location.reload();
+                    } else {
+                      alert('Error al modificar el usuario');
+                    }
+                  })
+                  .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al modificar el usuario');
+                  });
+              });
+            }
+          } else if (!formModificar) {
+            console.log(`El ${formModificar} no está definido`);
           }
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('No se pudo cargar el formulario');
-      });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('No se pudo cargar el formulario');
+        });
+    });
   });
-});
+})
 
 // Función para cerrar el formulario de modificación
 function cerrarFormulario() {
   formModificar = document.getElementById('formModificar');
-  if (formModificar) {
+  if (formModificar.style.display == "block") {
     formModificar.style.display = 'none';
-    formModificar.innerHTML = '';
+    // formModificar.innerHTML = '';
+  } else if (formModificar.style.display == "none") {
+    formModificar.style.display = 'block';
   }
 }
 

@@ -1,57 +1,33 @@
-<?php require_once('menu_view.php'); ?>
+ <!-- <section class="card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre de usuario</th>
+                    <th>Correo</th>
+                    <th>Rol: <select name="nombre_del_select" id="id_del_select">
+                            <option value="Administrador">Administrador</option>
+                            <option value="editor">Editor</option>
+                            <option value="visor">Visor</option>
+                        </select></th>
+                </tr>
+            </thead>
+            <tbody>
+                <td><input type="text" name="nombre" id="nombre"></td>
+                <td><input type="text" name="correo" id="correo"></td>
+            </tbody>
+            <tr>
+                <td><button type="button" id="btnCrearForm">Crear usuario</button></td> -->
+    <!-- </tr>
+        </table>
 
-<h1>Usuarios</h1>
-
-<?php
-// Definir el formulario en una variable para reutilizarlo
-$formularioUsuario = '
-<section class="form-user" style="margin-left:400px; margin-right:400px; margin-top:32px;">
-    <form action="index.php?controlador=usuarios&action=crearUsuario" method="post" class="form-user" style="width:100%;">
-        <div style="display:flex; gap:18px; align-items:flex-start; width:100%; margin-bottom:18px;">
-            <div style="flex:1; min-width:180px;">
-                <label for="nombre" style="font-weight:600; margin-bottom:6px; display:block;">Nombre de usuario</label>
-                <input type="text" name="nombre" id="nombre" placeholder="Introduce el nombre..." style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:10px; font-size:0.95rem; background:#fff;" />
-            </div>
-            <div style="flex:1; min-width:180px;">
-                <label for="localidad" style="font-weight:600; margin-bottom:6px; display:block;">Localidad</label>
-                <input type="text" name="localidad" id="localidad" placeholder="Introduce la localidad..." style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:10px; font-size:0.95rem; background:#fff;" />
-            </div>
-            <div style="flex:1; min-width:180px;">
-                <label for="sexo" style="font-weight:600; margin-bottom:6px; display:block;">Sexo</label>
-                <input type="text" name="sexo" id="sexo" placeholder="Introduce tu sexo..." style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:10px; font-size:0.95rem; background:#fff;" />
-            </div>
-            <div style="flex:1; min-width:180px;">
-                <label for="rol" style="font-weight:600; margin-bottom:6px; display:block;">Rol</label>
-                <select name="rol" id="rol" style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:10px; font-size:0.95rem; background:#fff;">
-                    <option value="Admin">Admin</option>
-                    <option value="editor">editor</option>
-                    <option value="visor">visor</option>
-                </select>
-            </div>
-            <div style="flex:1; min-width:180px;">
-                <label for="passwd" style="font-weight:600; margin-bottom:6px; display:block;">Contraseña</label>
-                <input type="password" name="passwd" id="passwd" placeholder="Introduce tu contraseña..." style="width:100%; padding:0.6rem; border:1px solid #cbd5e1; border-radius:10px; font-size:0.95rem; background:#fff;" />
-            </div>
+        <div id="formCrearUsuario">
         </div>
-        <div style="display:flex; justify-content:flex-start; align-items:center;">
-            <button type="submit" name="crear" class="btn-crear" style="background:#2563eb; color:#fff; font-size:1.15rem; border-radius:30px; padding:0.7rem 2.2rem; font-weight:600; border:none; box-shadow:0 2px 8px rgba(37,99,235,0.10);">Crear usuario</button>
-        </div>
-    </form>
-</section>
-';
+    </section> -->
 
-if (!isset($_SESSION['usuario'])) {
-?>
 
-    <h1 style="text-align:center; margin-left:400px; margin-right:400px; font-size:2.2rem; font-weight:800; margin-bottom:0.2rem;">Modificación de usuarios</h1>
-    <div style="text-align:center; margin-left:400px; margin-right:400px; color:#64748b; font-size:1.15rem; margin-bottom:1.2rem;">Crea nuevos usuarios y gestiona los existentes.</div>
-    <?php echo $formularioUsuario; ?>
-
-<?php
-} else if (isset($_SESSION['usuario'])) {
-?>
-
-    <h1 style="text-align:center;">Crear nuevo usuario</h1>
+    Conversación copilot:
+    alvaropas17: adapta los estilos de este css al formulario de animales:
+<h1 style="text-align:center;">Crear nuevo usuario</h1>
     <section class="form-user" style="max-width:1000px; margin:32px auto 0 auto; background:#fff; border-radius:14px; box-shadow:0 4px 16px rgba(2,6,23,0.04); padding:2rem 2.5rem;">
         <form action="index.php?controlador=usuarios&action=crearUsuario" method="post" style="width:100%;">
             <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:15px; margin-bottom:20px;">
@@ -140,4 +116,96 @@ if (!isset($_SESSION['usuario'])) {
         <div id="formModificar" style="display: none; margin-top: 30px; padding: 20px; background: #f5f5f5; border-radius: 10px;"></div>
     </section>
 
-<?php } ?>
+GitHub Copilot: Voy a adaptar los estilos CSS al formulario de animales. Primero, déjame ver el contenido actual del archivo. 
+
+Read [](file:///c%3A/xampp/htdocs/mvc-practica1-1/views/animales_view.php)
+
+Ahora voy a aplicar los estilos modernos del formulario de usuarios al formulario de animales: 
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Using "Replace String in File"
+
+
+```
+
+```
+He adaptado con éxito los estilos del formulario de usuarios al formulario de animales. Los cambios aplicados incluyen:
+
+**Formulario:**
+- Layout con grid de 4 columnas (en lugar de flex)
+- Fondo blanco con border-radius de 14px
+- Box-shadow moderno y sutil
+- Padding de 2rem 2.5rem
+- Inputs con estilos consistentes (border-radius 10px, padding 0.6rem)
+- Botón centrado con estilo azul moderno
+- Max-width de 1000px y centrado automático
+
+**Tabla:**
+- Max-width de 1200px centrada
+- Fondo blanco con border-radius 14px
+- Box-shadow moderno
+- Header con fondo gris claro (#f8fafc)
+- Hover effect en las filas
+- Espaciado y tipografía mejorados
+- Colores más modernos y legibles
+- Div para formulario de modificación preparado
+
+Los estilos ahora son consistentes entre ambas vistas y siguen un diseño moderno y limpio.
+
+Made changes.
+
+
+Conversación 2 adaptando estilos css:
+alvaropas17: sabrías decirme porque cuando le doy a los botones de aopción, iniciar sesión o contacto me tarda en cargar si estoy en local?
+
+GitHub Copilot: El problema de que las páginas tarden en cargar, incluso estando en un entorno local, puede deberse a varios factores. Aquí tienes algunas posibles causas y soluciones:
+
+### 1. **Consultas a la base de datos lentas**
+   - Si las páginas dependen de consultas a la base de datos, estas podrían ser lentas debido a índices mal configurados o consultas ineficientes.
+   - **Solución**: Revisa las consultas SQL en los archivos del modelo (`animales_model.php`, `usuarios_model.php`, etc.) y optimízalas. Asegúrate de que las tablas tengan índices adecuados.
+
+### 2. **Conexión a la base de datos**
+   - Si la conexión a la base de datos está mal configurada o tiene problemas, puede causar retrasos.
+   - **Solución**: Verifica el archivo `conectar.php` para asegurarte de que la conexión a la base de datos sea rápida y eficiente. Por ejemplo, asegúrate de que estás usando `localhost` en lugar de una dirección IP externa.
+
+### 3. **Carga de recursos estáticos**
+   - Si los archivos estáticos como script.js o style.css no están siendo cargados correctamente o tienen un tamaño grande, esto puede ralentizar la carga.
+   - **Solución**: Comprueba que los recursos están siendo servidos correctamente y minimiza los archivos CSS y JS si es necesario.
+
+### 4. **Redirecciones innecesarias**
+   - Si los controladores (`front_controller.php`, `animales_controller.php`, etc.) están realizando redirecciones innecesarias, esto puede causar retrasos.
+   - **Solución**: Revisa la lógica de los controladores para evitar redirecciones innecesarias.
+
+### 5. **Errores en el código**
+   - Si hay errores o excepciones que no están siendo manejados correctamente, el servidor puede tardar más en procesar las solicitudes.
+   - **Solución**: Activa el modo de depuración en PHP para identificar errores. Puedes hacerlo añadiendo lo siguiente al inicio de index.php:
+     ```php
+     ini_set('display_errors', 1);
+     ini_set('display_startup_errors', 1);
+     error_reporting(E_ALL);
+     ```
+
+### 6. **Configuración del servidor local**
+   - Si estás usando XAMPP, la configuración del servidor (Apache o MySQL) podría no estar optimizada.
+   - **Solución**: Asegúrate de que Apache y MySQL tienen suficiente memoria asignada y que no hay procesos innecesarios ejecutándose.
+
+### 7. **Sesiones o cookies**
+   - Si las páginas dependen de sesiones o cookies, estas podrían estar causando retrasos si no están configuradas correctamente.
+   - **Solución**: Revisa la configuración de sesiones en PHP y asegúrate de que no haya problemas con el almacenamiento de sesiones.
+
+### 8. **Carga de imágenes u otros archivos grandes**
+   - Si las páginas cargan imágenes o archivos grandes, esto puede ralentizar la carga.
+   - **Solución**: Optimiza las imágenes y utiliza formatos más ligeros como WebP.
+
+### 9. **Problemas con el navegador**
+   - A veces, el navegador puede estar almacenando en caché recursos de manera incorrecta.
+   - **Solución**: Limpia la caché del navegador o prueba en otro navegador.
+
+Si necesitas ayuda para revisar un archivo específico o realizar pruebas, indícalo y puedo ayudarte a analizar el código.

@@ -45,16 +45,16 @@ function crearUsuario()
         $nombre = isset($_POST['nombre']) ? strip_tags($_POST['nombre']) : '';
         $passwd = isset($_POST['passwd']) ? strip_tags($_POST['passwd']) : '';
         $sexo = isset($_POST['sexo']) ? htmlspecialchars($_POST['sexo']) : '';
+        $rol = isset($_POST['rol']) ? htmlspecialchars($_POST['rol']) : '';
         $localidad = isset($_POST['localidad']) ? htmlspecialchars($_POST['localidad']) : '';
     }
     require_once('model/usuarios_model.php');
     $model = new UsuariosModel();
-
     if ($nombre == "" || $passwd = "") {
         $message = "El campo nombre o contraseña está vacío.";
     } else {
-        $userId = $model->crearUsuario($nombre, $passwd, $sexo, $localidad);
-        header('Location: index.php');
+        $userId = $model->crearUsuario($nombre, $passwd, $sexo, $rol, $localidad);
+        header('Location: index.php?controlador=usuarios&action=usuarios');
         exit;
     }
 }
@@ -99,10 +99,13 @@ function usuarios()
 function modificarUsuario()
 {
     // Si es una petición AJAX para obtener el formulario
+    console_log("Modificar usuario");
     if (isset($_POST['accion']) && $_POST['accion'] === 'obtenerFormulario') {
+        console_log("Llega la petición del formulario");
         $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
         $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : '';
         $sexo = isset($_POST['sexo']) ? $_POST['sexo'] : '';
+        $rol = isset($_POST['rol']) ? $_POST['rol'] : '';
         $localidad = isset($_POST['localidad']) ? $_POST['localidad'] : '';
 
         echo '
@@ -117,6 +120,13 @@ function modificarUsuario()
 
                 <label><b>Sexo:</b></label>
                 <input type="text" name="sexo" value="' . htmlspecialchars($sexo) . '" required>
+
+                <label><b>Rol:</b></label>
+                <select name="rol" required>
+                    <option value="Admin" ' . ($rol === 'Admin' ? 'selected' : '') . '>Admin</option>
+                    <option value="editor" ' . ($rol === 'editor' ? 'selected' : '') . '>editor</option>
+                    <option value="visor" ' . ($rol === 'visor' ? 'selected' : '') . '>visor</option>
+                </select>
 
                 <label><b>Localidad:</b></label>
                 <input type="text" name="localidad" value="' . htmlspecialchars($localidad) . '" required>
@@ -133,12 +143,13 @@ function modificarUsuario()
         $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
         $nombre = isset($_POST['nombre']) ? strip_tags($_POST['nombre']) : '';
         $sexo = isset($_POST['sexo']) ? htmlspecialchars($_POST['sexo']) : '';
+        $rol = isset($_POST['rol']) ? htmlspecialchars($_POST['rol']) : '';
         $localidad = isset($_POST['localidad']) ? htmlspecialchars($_POST['localidad']) : '';
 
         if ($id > 0 && $nombre != "") {
             require_once('model/usuarios_model.php');
             $model = new UsuariosModel();
-            $result = $model->modificarUsuario($id, $nombre, $sexo, $localidad);
+            $result = $model->modificarUsuario($id, $nombre, $sexo, $rol, $localidad);
 
             if ($result) {
                 header('Location: index.php?controlador=usuarios&action=usuarios');
