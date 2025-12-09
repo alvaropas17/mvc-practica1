@@ -119,13 +119,5 @@ function cerrarFormulario() {
   }
 }
 
-// Función para activar el selector de archivos
-function activarSelectorImagen(inputId) {
-  const fileInput = document.getElementById(inputId);
-  if (fileInput) {
-    fileInput.click();
-  }
-}
-
 
 
