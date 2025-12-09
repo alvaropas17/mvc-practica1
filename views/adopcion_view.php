@@ -9,7 +9,7 @@ require_once("views/menu_view.php");
 
         <div class="carousel">
             <div class="slides">
-                <!-- SLIDES DEFINIDOS DIRECTAMENTE EN HTML -->
+                <!-- SLIDES DE EJEMPLO -->
                 <div class="slide">
                     <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=1600&auto=format&fit=crop"
                         alt="Luna">
@@ -30,17 +30,35 @@ require_once("views/menu_view.php");
                     <h3>Maya</h3>
                     <p>Sociable y cariñosa. Se lleva muy bien con niños y otros animales.</p>
                 </div>
+
+                <!-- SLIDES DINÁMICOS DE LA BASE DE DATOS -->
+                <?php if (!empty($animales)) {
+                    foreach ($animales as $animal) { ?>
+                <div class="slide">
+                    <img src="<?php echo htmlspecialchars($animal['imagen']); ?>" 
+                         alt="<?php echo htmlspecialchars($animal['nombre_animal']); ?>"
+                         style="width:100%; height:400px; object-fit:cover; border-radius:12px;">
+                    <h3><?php echo htmlspecialchars($animal['nombre_animal']); ?></h3>
+                    <p><?php echo htmlspecialchars($animal['descripcion']); ?></p>
+                </div>
+                <?php } 
+                } ?>
             </div>
 
             <!-- Botones -->
             <button id="prev" aria-label="Anterior">‹</button>
             <button id="next" aria-label="Siguiente">›</button>
 
-            <!-- Dots (también definidos en HTML) -->
+            <!-- Dots dinámicos -->
             <div class="dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+                <?php 
+                $totalSlides = 3; // Los 3 de ejemplo
+                if (!empty($animales)) {
+                    $totalSlides += count($animales);
+                }
+                for ($i = 0; $i < $totalSlides; $i++) { ?>
+                    <span class="dot <?php echo $i === 0 ? 'active' : ''; ?>"></span>
+                <?php } ?>
             </div>
         </div>
 

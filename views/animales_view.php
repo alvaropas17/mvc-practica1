@@ -71,7 +71,7 @@ if (isset($_SESSION['usuario'])) {
                         <td style="padding:14px 16px; font-size:0.95rem; color:#64748b;"><?php echo htmlspecialchars($animal['descripcion']); ?></td>
                         <?php if (isset($_SESSION['usuario'])) { ?>
                             <td style="padding:14px 16px; text-align:center;">
-                                <button class="btn-modificar-Animales"
+                                <button class="btn-modificar btn-modificar-Animales"
                                     data-id_animal="<?php echo $animal['id_animal']; ?>"
                                     data-imagen="<?php echo $animal['imagen']; ?>"
                                     data-fecha_subida="<?php echo $animal['fecha_subida']; ?>"
@@ -82,10 +82,11 @@ if (isset($_SESSION['usuario'])) {
                                     style="margin-right:8px;">
                                     Modificar
                                 </button>
-                                <form action="index.php?controlador=animales&action=eliminarAnimal" method="post" style="display:inline;">
-                                    <input type="hidden" name="id_animal" value="<?php echo htmlspecialchars($animal['id_animal']); ?>">
-                                    <input type="submit" name="borrar" value="Borrar" class="btn-borrar" onclick="return confirm('¿Estás seguro de que quieres eliminar este animal?');">
-                                </form>
+                                <button class="btn-borrar btn-borrar-animal"
+                                    data-id_animal="<?php echo $animal['id_animal']; ?>"
+                                    data-nombre="<?php echo htmlspecialchars($animal['nombre_animal']); ?>">
+                                    Borrar
+                                </button>
                             </td>
                         <?php } ?>
                     </tr>

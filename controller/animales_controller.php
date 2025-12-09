@@ -69,29 +69,31 @@ function mostrarAnimales()
 
 function eliminarAnimal()
 {
-    $error = "";
     if (isset($_POST['borrar'])) {
         $id_animal = isset($_POST['id_animal']) ? htmlspecialchars($_POST['id_animal']) : '';
         console_log("Id_animal: " . $id_animal);
 
         if (empty($id_animal)) {
-            $error = "Error: No se pudo identificar el animal a eliminar.";
-        } else {
-            require_once("model/animales_model.php");
-            $model = new AnimalesModel();
-            $result = $model->eliminarAnimal($id_animal);
-            console_log("Result " . $result);
-
-            if ($result) {
-                header('Location: index.php?controlador=animales&action=mostrarAnimales');
-                exit;
-            } else {
-                $error = "Error al eliminar el animal.";
-            }
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Error: No se pudo identificar el animal a eliminar.']);
+            exit;
         }
+
+        require_once("model/animales_model.php");
+        $model = new AnimalesModel();
+        $result = $model->eliminarAnimal($id_animal);
+        console_log("Result " . $result);
+
+        header('Content-Type: application/json');
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Animal eliminado correctamente.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Error al eliminar el animal.']);
+        }
+        exit;
     }
 
-    // Si hay error, mostrar la vista con el mensaje
+    // Si no es petición AJAX, mostrar la vista normal
     require_once('model/animales_model.php');
     $model = new AnimalesModel();
     $users = $model->mostrarAnimales();
@@ -104,19 +106,29 @@ function modificarAnimal()
     console_log("Modificar animal");
     if (isset($_POST['accion']) && $_POST['accion'] === 'obtenerFormularioAnimal') {
         console_log("Llega la petición del formulario");
-        $id = isset($_POST['id_usuario']) ? (int)$_POST['id_usuario'] : 0;
-        $nombre = isset($_POST['nombre_animal']) ? $_POST['nombre_animal'] : '';
+        $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+        $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : '';
         console_log("Nombre: " . $nombre);
         $especie = isset($_POST['especie']) ? $_POST['especie'] : '';
         $edad = isset($_POST['edad']) ? $_POST['edad'] : '';
         $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : '';
+        $imagen = isset($_POST['imagen']) ? $_POST['imagen'] : '';
 
         echo '
         <div class="formulario-container">
             <h3>Modificar animal</h3>
-            <form id="formModificarUsuario" method="post" action="index.php?controlador=animales&action=mostrarAnimales">
+            <form id="formModificarAnimal" method="post" action="index.php?controlador=animales&action=modificarAnimal" enctype="multipart/form-data">
+                <input type="hidden" name="id_animal" value="' . htmlspecialchars($id) . '">
+                <input type="hidden" name="imagen" value="' . htmlspecialchars($imagen) . '">
+                <label><b>Imagen:</b></label>
+                <div style="margin-bottom:15px;">
+                    <img src="' . htmlspecialchars($imagen) . '" alt="Imagen actual" style="max-width:150px; max-height:150px; border-radius:8px; border:2px solid #ccc; display:block; margin-bottom:10px;">
+                    <button type="button" onclick="document.getElementById(\'nueva_imagen\').click();" style="padding:8px 16px; background:#2563eb; color:#fff; border:none; border-radius:6px; cursor:pointer;">Cambiar imagen</button>
+                    <input type="file" id="nueva_imagen" name="nueva_imagen" accept="image/*" style="display:none;">
+                </div>
+                
                 <label><b>Nombre:</b></label>
-                <input type="text" name="nombre" value="' . htmlspecialchars($nombre) . '" required>
+                <input type="text" name="nombre_animal" value="' . htmlspecialchars($nombre) . '" required>
 
                 <label><b>Especie:</b></label>
                 <input type="text" name="especie" value="' . htmlspecialchars($especie) . '" required>
@@ -136,18 +148,30 @@ function modificarAnimal()
 
     // Si es una petición POST para guardar cambios
     if (isset($_POST['modificarAnimal'])) {
-        $id = isset($_POST['id_usuario']) ? (int)$_POST['id_usuario'] : 0;
-        $fecha_subida = isset($_POST['fecha_subida']) ? $_POST['fecha_subida'] : '';
+        $id_animal = isset($_POST['id_animal']) ? (int)$_POST['id_animal'] : 0;
+        $fecha_subida = date('Y-m-d H:i:s');
         $imagen = isset($_POST['imagen']) ? $_POST['imagen'] : '';
-        $nombre = isset($_POST['nombre_animal']) ? $_POST['nombre_animal'] : '';
-        $especie = isset($_POST['especie']) ? $_POST['especie'] : '';
-        $edad = isset($_POST['edad']) ? $_POST['edad'] : '';
-        $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : '';
+        
+        // Procesar nueva imagen si se subió
+        if (isset($_FILES['nueva_imagen']) && $_FILES['nueva_imagen']['error'] == UPLOAD_ERR_OK) {
+            $carpeta = "img/";
+            $nombreArchivo = basename($_FILES['nueva_imagen']['name']);
+            $rutaDestino = $carpeta . uniqid() . "_" . $nombreArchivo;
+            if (move_uploaded_file($_FILES['nueva_imagen']['tmp_name'], $rutaDestino)) {
+                $imagen = $rutaDestino;
+            }
+        }
+        
+        $nombre_animal = isset($_POST['nombre_animal']) ? strip_tags($_POST['nombre_animal']) : '';
+        $especie = isset($_POST['especie']) ? strip_tags($_POST['especie']) : '';
+        $edad = isset($_POST['edad']) ? (int)$_POST['edad'] : 0;
+        $descripcion = isset($_POST['descripcion']) ? htmlspecialchars($_POST['descripcion']) : '';
+        $id_usuario = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
 
-        if ($id > 0 && $nombre != "") {
+        if ($id_animal > 0 && $nombre_animal != "") {
             require_once('model/animales_model.php');
             $model = new AnimalesModel();
-            $result = $model->modificarAnimal($id, $fecha_subida, $imagen, $nombre, $especie, $edad, $descripcion);
+            $result = $model->modificarAnimal($imagen, $fecha_subida, $nombre_animal, $descripcion, $id_animal, $especie, $edad);
 
             if ($result) {
                 header('Location: index.php?controlador=animales&action=mostrarAnimales');

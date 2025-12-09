@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-12-2025 a las 16:57:48
+-- Tiempo de generación: 09-12-2025 a las 20:50:25
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -36,8 +36,17 @@ CREATE TABLE `animales` (
   `descripcion` varchar(255) NOT NULL,
   `id_usuario` int(100) NOT NULL,
   `especie` varchar(255) NOT NULL,
-  `edad` int(100) NOT NULL
+  `edad` int(100) NOT NULL,
+  `id_animal` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `animales`
+--
+
+INSERT INTO `animales` (`imagen`, `fecha_subida`, `nombre_animal`, `descripcion`, `id_usuario`, `especie`, `edad`, `id_animal`) VALUES
+('img/6935bd4962b4f_caballo.webp', '2025-12-07', 'Antonio', 'Antonio es un perro', 1, 'Perro', 13, 5),
+('./img/caballo.webp', '2025-12-07', 'Luis', 'Luis es una rata', 1, 'Rata', 13, 6);
 
 -- --------------------------------------------------------
 
@@ -72,6 +81,7 @@ INSERT INTO `usuarios` (`contrasenia`, `sexo`, `rol`, `localidad`, `nombre`, `id
 -- Indices de la tabla `animales`
 --
 ALTER TABLE `animales`
+  ADD PRIMARY KEY (`id_animal`),
   ADD KEY `fk_usuario` (`id_usuario`);
 
 --
@@ -83,6 +93,12 @@ ALTER TABLE `usuarios`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `animales`
+--
+ALTER TABLE `animales`
+  MODIFY `id_animal` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

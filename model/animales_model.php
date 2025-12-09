@@ -28,8 +28,8 @@ class AnimalesModel
     public function modificarAnimal(string $imagen, string $fecha_subida, string $nombre_animal, string $descripcion, int $id_animal, string $especie, int $edad): bool
     {
         try {
-            $stmt = $this->db->prepare("UPDATE animales SET imagen = ?, fecha_subida = ?, nombre_animal = ?, descripcion = ?, id_animal = ?, especie = ?, edad = ? WHERE id_animal = ?");
-            $stmt->bind_param("ssssisis", $imagen, $fecha_subida, $nombre_animal, $descripcion, $id_animal, $especie, $edad, $id_animal);
+            $stmt = $this->db->prepare("UPDATE animales SET imagen = ?, fecha_subida = ?, nombre_animal = ?, descripcion = ?, especie = ?, edad = ? WHERE id_animal = ?");
+            $stmt->bind_param("sssssii", $imagen, $fecha_subida, $nombre_animal, $descripcion, $especie, $edad, $id_animal);
 
             // Una vez preparada debemos de ejecutarla
             $ok = $stmt->execute();

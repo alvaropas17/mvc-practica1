@@ -1,6 +1,6 @@
 <?php require_once('menu_view.php'); ?>
 
-<h1>Usuarios</h1>
+
 
 <?php
 // Definir el formulario en una variable para reutilizarlo
@@ -50,9 +50,9 @@ if (!isset($_SESSION['usuario'])) {
 <?php
 } else if (isset($_SESSION['usuario'])) {
 ?>
-
-    <h1 style="text-align:center;">Crear nuevo usuario</h1>
-    <section class="form-user" style="max-width:1000px; margin:32px auto 0 auto; background:#fff; border-radius:14px; box-shadow:0 4px 16px rgba(2,6,23,0.04); padding:2rem 2.5rem;">
+<h1 style="max-width:1200px; margin:32px auto 0 auto;">Usuarios</h1>
+<section class="form-user" style="max-width:1200px; margin:32px auto 0 auto; background:#fff; border-radius:14px; box-shadow:0 4px 16px rgba(2,6,23,0.04); padding:2rem 2.5rem;">
+        <h1 style="text-align:left;">Crear nuevo usuario</h1>
         <form action="index.php?controlador=usuarios&action=crearUsuario" method="post" style="width:100%;">
             <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:15px; margin-bottom:20px;">
                 <div>

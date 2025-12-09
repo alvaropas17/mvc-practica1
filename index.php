@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
+  <script src="ajax.js" defer></script>
   <title>Adopciones • Adopción • Login • Contacto</title>
 
 </head>

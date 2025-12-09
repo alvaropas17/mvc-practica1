@@ -2,7 +2,12 @@
 
 function home()
 {
-    // Cargamos la vista principal de adopción
+    // Cargar los animales desde la base de datos
+    require_once('model/animales_model.php');
+    $model = new AnimalesModel();
+    $animales = $model->mostrarAnimales();
+    
+    // Cargamos la vista principal de adopción con los animales
     require_once("views/adopcion_view.php");
 }
 
@@ -50,7 +55,7 @@ function crearUsuario()
     }
     require_once('model/usuarios_model.php');
     $model = new UsuariosModel();
-    if ($nombre == "" || $passwd = "") {
+    if ($nombre == "" || $passwd == "") {
         $message = "El campo nombre o contraseña está vacío.";
     } else {
         $userId = $model->crearUsuario($nombre, $passwd, $sexo, $rol, $localidad);
@@ -161,4 +166,47 @@ function modificarUsuario()
             echo json_encode(['success' => false, 'message' => 'Datos inválidos.']);
         }
     }
+}
+
+function enviarFormulario()
+{
+    $message = "";
+    if (isset($_POST['enviar'])) {
+        $nombre = isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : '';
+        $asunto = isset($_POST['asunto']) ? htmlspecialchars($_POST['asunto']) : '';
+        $correo = isset($_POST['correo']) ? htmlspecialchars($_POST['correo']) : '';
+        $mensaje = isset($_POST['mensaje']) ? htmlspecialchars($_POST['mensaje']) : '';
+        
+        if ($nombre != "" && $correo != "" && $asunto != "" && $mensaje != "") {
+            // Configurar el destinatario (cambia esto por tu email)
+            $destinatario = "admin@adopciones.com";
+            
+            // Configurar las cabeceras del email
+            $headers = "From: " . $correo . "\r\n";
+            $headers .= "Reply-To: " . $correo . "\r\n";
+            $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+            
+            // Construir el cuerpo del mensaje
+            $cuerpoMensaje = "<html><body>";
+            $cuerpoMensaje .= "<h2>Nuevo mensaje de contacto</h2>";
+            $cuerpoMensaje .= "<p><strong>Nombre:</strong> " . $nombre . "</p>";
+            $cuerpoMensaje .= "<p><strong>Correo:</strong> " . $correo . "</p>";
+            $cuerpoMensaje .= "<p><strong>Asunto:</strong> " . $asunto . "</p>";
+            $cuerpoMensaje .= "<p><strong>Mensaje:</strong></p>";
+            $cuerpoMensaje .= "<p>" . nl2br($mensaje) . "</p>";
+            $cuerpoMensaje .= "</body></html>";
+            
+            // Enviar el email
+            if (mail($destinatario, $asunto, $cuerpoMensaje, $headers)) {
+                $message = "Mensaje enviado correctamente. Te responderemos pronto.";
+            } else {
+                $message = "Error al enviar el mensaje. Por favor, inténtalo de nuevo.";
+            }
+        } else {
+            $message = "Por favor, completa todos los campos.";
+        }
+    }
+    
+    // Mostrar la vista con el mensaje
+    require_once("views/contacto_view.php");
 }
